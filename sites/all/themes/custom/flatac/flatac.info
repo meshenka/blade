@@ -48,6 +48,8 @@ base theme  = zen
 stylesheets[all][] = system.menus.css
 stylesheets[all][] = system.messages.css
 stylesheets[all][] = system.theme.css
+stylesheets[all][] = vendors/Flat-UI-master/dist/css/vendor/bootstrap.min.css
+stylesheets[all][] = vendors/Flat-UI-master/dist/css/flat-ui.min.css
 
 ; Then we add our own stylesheet.
 stylesheets[all][] = css/styles.css
@@ -60,14 +62,15 @@ stylesheets[all][] = css/styles.css
 ;
 ; If you still wish to use conditional stylesheets, you must install the
 ; conditional stylesheets module: https://drupal.org/project/conditional_styles
-;stylesheets-conditional[lte IE 8][all][] = css/ie8.css
-
+stylesheets-conditional[lte IE 9][all][] = vendors/Flat-UI-master/js/vendor/html5shiv.js
+stylesheets-conditional[lte IE 9][all][] = vendors/Flat-UI-master/js/vendor/respond.min.js
 
 
 ; Optionally add some JavaScripts to your theme.
 
 ;scripts[] = js/script.js
-
+scripts[] = vendors/Flat-UI-master/dist/js/vendor/video.js
+scripts[] = vendors/Flat-UI-master/dist/js/flat-ui.min.js
 
 
 ; This section lists the regions defined in Zen's default page.tpl.php and
