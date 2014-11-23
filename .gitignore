@@ -5,3 +5,6 @@ sites/*/settings*.php
 sites/*/files
 sites/*/private
 sites/all/modules/dev
+sites/all/themes
+sites/all/modules/contrib
+sites/all/modules/custom
