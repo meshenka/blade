@@ -1,0 +1,41 @@
+name = Flat AC
+description = Install a flat AC drupal
+version = VERSION
+core = 7.x
+
+dependencies[] = block
+dependencies[] = contextual
+dependencies[] = dashboard
+dependencies[] = image
+dependencies[] = list
+dependencies[] = menu
+dependencies[] = number
+dependencies[] = options
+dependencies[] = path
+dependencies[] = taxonomy
+dependencies[] = syslog
+dependencies[] = search
+dependencies[] = shortcut
+dependencies[] = toolbar
+dependencies[] = file
+dependencies[] = rdf
+dependencies[] = ckeditor
+dependencies[] = features
+dependencies[] = jquery_update
+dependencies[] = less
+dependencies[] = libraries
+dependencies[] = markdown
+dependencies[] = menu_block
+dependencies[] = metatag_opengraph
+dependencies[] = pathauto
+dependencies[] = strongarm
+dependencies[] = token
+dependencies[] = transliteration
+dependencies[] = xmlsitemap_node
+
+
+; Information added by Drupal.org packaging script on 2014-11-19
+version = "7.x-1.0"
+project = "drupal"
+datestamp = "1416429488"
+

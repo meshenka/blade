@@ -1,0 +1,33 @@
+<?php
+/**
+ * @file
+ * Install, update and uninstall functions for the standard installation profile.
+ */
+
+/**
+ * Implements hook_install().
+ *
+ * Perform actions to set up the site for this profile.
+ *
+ * @see system_install()
+ */
+function ac_install()
+{
+    include_once DRUPAL_ROOT.'/profiles/ac/includes/filters.inc';
+    ac_configure_filters();
+
+    include_once DRUPAL_ROOT.'/profiles/ac/includes/blocks.inc';
+    ac_configure_blocks();
+
+    include_once DRUPAL_ROOT.'/profiles/ac/includes/types.inc';
+    ac_configure_types();
+
+    include_once DRUPAL_ROOT.'/profiles/ac/includes/roles.inc';
+    ac_configure_roles();
+
+    include_once DRUPAL_ROOT.'/profiles/ac/includes/menus.inc';
+    ac_configure_menus();
+
+    include_once DRUPAL_ROOT.'/profiles/ac/includes/themes.inc';
+    ac_configure_themes();
+}
