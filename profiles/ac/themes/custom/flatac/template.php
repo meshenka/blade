@@ -7,6 +7,11 @@
  * @see https://drupal.org/node/1728096
  */
 
+include_once dirname(__FILE__).'/bootstrap/menu/menu-link.func.php';
+include_once dirname(__FILE__).'/bootstrap/menu/menu-local-action.func.php';
+include_once dirname(__FILE__).'/bootstrap/menu/menu-local-task.func.php';
+include_once dirname(__FILE__).'/bootstrap/menu/menu-local-tasks.func.php';
+include_once dirname(__FILE__).'/bootstrap/menu/menu-tree.func.php';
 
 /**
  * Override or insert variables into the maintenance page template.

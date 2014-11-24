@@ -1,0 +1,21 @@
+<?php
+
+function products_menu()
+{
+    $items = array();
+
+    $items['products'] = array(
+        'title' => 'Products',
+        'description' => 'Latests product page',
+        'page callback' => 'products_latest',
+        'access arguments' => array('access content'),
+        'type' => MENU_NORMAL_ITEM,
+    );
+
+    return $items;
+}
+
+function products_latest()
+{
+    return 'test';
+}

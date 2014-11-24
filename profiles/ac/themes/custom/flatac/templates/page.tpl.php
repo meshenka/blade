@@ -8,42 +8,13 @@
  */
 ?>
 
-<div id="page" class="container">
+<div id="page">
 
-  <header class="header" id="header" role="banner">
+  <header class="header container" id="header" role="banner">
 
     <?php if ($logo): ?>
-      <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home" class="header__logo" id="logo"><img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" class="header__logo-image" /></a>
-    <?php endif; ?>
-
-    <?php if ($site_name || $site_slogan): ?>
-      <div class="header__name-and-slogan" id="name-and-slogan">
-        <?php if ($site_name): ?>
-          <h1 class="header__site-name" id="site-name">
-            <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" class="header__site-link" rel="home"><span><?php print $site_name; ?></span></a>
-          </h1>
-        <?php endif; ?>
-
-        <?php if ($site_slogan): ?>
-          <div class="header__site-slogan" id="site-slogan"><?php print $site_slogan; ?></div>
-        <?php endif; ?>
-      </div>
-    <?php endif; ?>
-
-    <?php if ($secondary_menu): ?>
-      <nav class="header__secondary-menu" id="secondary-menu" role="navigation">
-        <?php print theme('links__system_secondary_menu', array(
-          'links' => $secondary_menu,
-          'attributes' => array(
-            'class' => array('links', 'inline', 'clearfix'),
-          ),
-          'heading' => array(
-            'text' => $secondary_menu_heading,
-            'level' => 'h2',
-            'class' => array('element-invisible'),
-          ),
-        )); ?>
-      </nav>
+      <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home" class="header__logo logo" id="logo">
+        <img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" class="logo-link active header__logo-image" /></a>
     <?php endif; ?>
 
     <?php print render($page['header']); ?>
@@ -53,7 +24,12 @@
   <div id="main">
 
     <div id="content" class="column" role="main">
-      <?php print $breadcrumb; ?>
+
+      <?php
+        // pas de breadcrumb sur la home
+        if (! $is_front) {
+            print $breadcrumb;
+        }?>
       <a id="main-content"></a>
       <?php print render($title_prefix); ?>
       <?php if ($title): ?>
@@ -74,12 +50,7 @@
       <?php print render($page['navigation']); ?>
     </div>
 
-    <?php
-      // Render the sidebars to see if there's anything in them.
-      $sidebar_first  = render($page['sidebar_first']);
-    ?>
-
-    <?php if ($sidebar_first): ?>
+    <?php if ($sidebar_first = render($page['sidebar_first'])): ?>
       <aside class="sidebars">
         <?php print $sidebar_first; ?>
       </aside>

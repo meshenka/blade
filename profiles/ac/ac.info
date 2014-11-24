@@ -33,6 +33,9 @@ dependencies[] = token
 dependencies[] = transliteration
 dependencies[] = xmlsitemap_node
 
+; custom dependencies
+dependencies[] = products
+
 
 ; Information added by Drupal.org packaging script on 2014-11-19
 version = "7.x-1.0"
