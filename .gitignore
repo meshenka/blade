@@ -8,3 +8,5 @@ sites/all/modules/dev
 sites/all/themes
 sites/all/modules/contrib
 sites/all/modules/custom
+profiles/ac/themes/bootstrap
+profiles/ac/modules/features
