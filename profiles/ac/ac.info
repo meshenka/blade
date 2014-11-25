@@ -32,6 +32,7 @@ dependencies[] = strongarm
 dependencies[] = token
 dependencies[] = transliteration
 dependencies[] = xmlsitemap_node
+dependencies[] = menu_breadcrumb
 
 ; custom dependencies
 dependencies[] = products
