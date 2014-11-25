@@ -2,34 +2,39 @@
 
 function ac_configure_types()
 {
+    $msg = '';
     // Insert default pre-defined node types into the database. For a complete
 // list of available node type attributes, refer to the node type API
 // documentation at: http://api.drupal.org/api/HEAD/function/hook_node_info.
     $types = array(
         array(
             'type' => 'page',
-            'name' => st('Basic page'),
+            'name' => 'Basic page',
             'base' => 'node_content',
-            'description' => st("Use <em>basic pages</em> for your static content, such as an 'About us' page."),
+            'description' => "Use <em>basic pages</em> for your static content, such as an 'About us' page.",
             'custom' => 1,
             'modified' => 1,
             'locked' => 0,
             ),
         array(
             'type' => 'article',
-            'name' => st('Article'),
+            'name' => 'Article',
             'base' => 'node_content',
-            'description' => st('Use <em>articles</em> for time-sensitive content like news, press releases or blog posts.'),
+            'description' => 'Use <em>articles</em> for time-sensitive content like news, press releases or blog posts.',
             'custom' => 1,
             'modified' => 1,
             'locked' => 0,
             ),
         );
 
-    foreach ($types as $type) {
-        $type = node_type_set_defaults($type);
-        node_type_save($type);
-        node_add_body_field($type);
+    try {
+        foreach ($types as $type) {
+            $type = node_type_set_defaults($type);
+            node_type_save($type);
+            node_add_body_field($type);
+        }
+    } catch (\PDOException $ex) {
+        $msg .= 'Types already created';
     }
 
 // Insert default pre-defined RDF mapping into the database.
@@ -68,22 +73,24 @@ function ac_configure_types()
     variable_set('node_submitted_page', false);
 
 // Enable user picture support and set the default to a square thumbnail option.
-    variable_set('user_pictures', '1');
-    variable_set('user_picture_dimensions', '1024x1024');
-    variable_set('user_picture_file_size', '800');
-    variable_set('user_picture_style', 'thumbnail');
+    variable_set('user_pictures', '0');
 
 // Allow visitor account creation with administrative approval.
-    variable_set('user_register', USER_REGISTER_VISITORS_ADMINISTRATIVE_APPROVAL);
+    variable_set('user_register', USER_REGISTER_ADMINISTRATORS_ONLY);
 
 // Create a default vocabulary named "Tags", enabled for the 'article' content type.
-    $description = st('Use tags to group articles on similar topics into categories.');
+    $description = 'Use tags to group articles on similar topics into categories.';
     $vocabulary = (object) array(
         'name' => st('Tags'),
         'description' => $description,
         'machine_name' => 'tags',
         );
-    taxonomy_vocabulary_save($vocabulary);
+
+    try {
+        taxonomy_vocabulary_save($vocabulary);
+    } catch (\PDOException $ex) {
+        $msg .= 'Tag Vocabulary already created';
+    }
 
     $field = array(
         'field_name' => 'field_'.$vocabulary->machine_name,
@@ -99,7 +106,12 @@ function ac_configure_types()
                 ),
             ),
         );
-    field_create_field($field);
+
+    try {
+        field_create_field($field);
+    } catch (\FieldException $ex) {
+        $msg .= "Field {$field['field_name']} already created";
+    }
 
     $help = st('Enter a comma-separated list of words to describe your content.');
     $instance = array(
@@ -123,7 +135,12 @@ function ac_configure_types()
                 ),
             ),
         );
-    field_create_instance($instance);
+
+    try {
+        field_create_instance($instance);
+    } catch (\FieldException $ex) {
+        $msg .= "Instance {$instance['field_name']} already created";
+    }
 
 // Create an image field named "Image", enabled for the 'article' content type.
 // Many of the following values will be defaulted, they're included here as an illustrative examples.
@@ -144,7 +161,12 @@ function ac_configure_types()
             'settings' => array(),
             ),
         );
-    field_create_field($field);
+
+    try {
+        field_create_field($field);
+    } catch (\FieldException $ex) {
+        $msg .= "Field {$field['field_name']} already created";
+    }
 
 // Many of the following values will be defaulted, they're included here as an illustrative examples.
 // See http://api.drupal.org/api/function/field_create_instance/7
@@ -190,7 +212,12 @@ function ac_configure_types()
                 ),
             ),
     );
-    field_create_instance($instance);
+
+    try {
+        field_create_instance($instance);
+    } catch (\FieldException $ex) {
+        $msg .= "Instance {$instance['field_name']} already created";
+    }
 
     $filtered_html_format = array(
         'format' => 'filtered_html',
@@ -223,6 +250,6 @@ function ac_configure_types()
 
     // Enable default permissions for system roles.
     $filtered_html_permission = filter_permission_name($filtered_html_format);
-    user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, array('access content', 'access comments', $filtered_html_permission));
-    user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array('access content', 'access comments', 'post comments', 'skip comment approval', $filtered_html_permission));
+    user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, array('access content', $filtered_html_permission));
+    user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array('access content', $filtered_html_permission));
 }

@@ -79,9 +79,15 @@ function ac_configure_blocks()
             'cache' => -1,
             ),
         );
-    $query = db_insert('block')->fields(array('module', 'delta', 'theme', 'status', 'weight', 'region', 'pages', 'cache'));
-    foreach ($blocks as $block) {
-        $query->values($block);
+    try {
+        $query = db_insert('block')->fields(array('module', 'delta', 'theme', 'status', 'weight', 'region', 'pages', 'cache'));
+        foreach ($blocks as $block) {
+            $query->values($block);
+        }
+        $query->execute();
+
+        return 'Done';
+    } catch (\PDOException $ex) {
+        return 'Already done';
     }
-    $query->execute();
 }
