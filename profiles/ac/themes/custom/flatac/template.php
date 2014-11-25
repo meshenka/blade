@@ -8,3 +8,12 @@
  */
 
 include_once dirname(__FILE__).'/bootstrap/menu.inc';
+
+function flatac_preprocess_page(&$variables)
+{
+    //kpr($variables);
+    //no page title in home node
+    if (isset($variables['node']) && ($variables['node']->type === 'home')) {
+        $variables['title'] = false;
+    }
+}
