@@ -24,7 +24,7 @@ $imgPath =  image_style_url('background', $node->field_background[LANGUAGE_NONE]
 
 }
 </style>
-<article class="node-<?php print $node->nid; ?> <?php print $classes; ?> jumbotron"<?php print $attributes; ?>>
+<section class="node-<?php print $node->nid; ?> <?php print $classes; ?> jumbotron"<?php print $attributes; ?>>
 
   <?php if ($title_prefix || $title_suffix || $display_submitted || $unpublished || !$page && $title): ?>
     <header>
@@ -43,16 +43,16 @@ $imgPath =  image_style_url('background', $node->field_background[LANGUAGE_NONE]
       <?php endif; ?>
     </header>
   <?php endif; ?>
-  <div class="center-block">
+  <div class="text-center">
     <?php
       // We hide the comments and links now so that we can render them later.
       hide($content['comments']);
       hide($content['field_background']);
       hide($content['links']);
 
-      echo "<h1 {$title_attributes}<a href=\"{$node_url}\">{$title}</a></h1>";
+      echo '<div class="h1">'.$title.'</div>';
       print render($content);
     ?>
   </div>
   <?php print render($content['links']); ?>
-</article>
+</section>

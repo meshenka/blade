@@ -48,7 +48,7 @@ function flatac_menu_link(array $variables)
  */
 function flatac_menu_tree(&$variables)
 {
-    return '<ul class="menu nav">'.$variables['tree'].'</ul>';
+    return '<ul class="menu nav text-center">'.$variables['tree'].'</ul>';
 }
 
 /**
