@@ -10,3 +10,7 @@ sites/all/modules/contrib
 sites/all/modules/custom
 profiles/ac/themes/bootstrap
 profiles/ac/modules/features
+sites/all/libraries/composer
+sites/all/libraries/autoload.php
+sites/all/libraries/swiftmailer
+sites/all/libraries/zendframework

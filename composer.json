@@ -1,0 +1,19 @@
+{
+  "name": "meshenka/drupal-ac",
+  "description": "Composer pour drupal-ac installation profile",
+  "type": "drupal-profile",
+  "license": "GPL-2.0+",
+  "require": {
+    "zendframework/zendpdf": "2.*",
+    "swiftmailer/swiftmailer": "5.*"
+  },
+  "config": {
+    "vendor-dir": "sites/all/libraries",
+    "preferred-install": "dist"
+  },
+  "autoload": {
+        "psr-0": {
+          "Blade\\": "sites/all/libraries/rs/"
+        }
+    }
+}
