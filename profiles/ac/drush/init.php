@@ -1,31 +1,34 @@
 <?php
-
-include_once DRUPAL_ROOT.'/sites/all/libraries/autoload.php';
-
 /**
+ * @package Blade
+ * @subpackage Profile
+ *
  * this is a drush script to manualy run initialisation
  */
+
+include_once DRUPAL_ROOT.'/sites/all/libraries/autoload.php';
 use Drupal\ac\Configuration as ACC;
 
-//include_once DRUPAL_ROOT.'/profiles/ac/ac.install';
-$typeConf = new ACC\TypeConfigurator();
-$output = $typeConf->configure();
-foreach ($output as $m) {
-    list($msg, $level) = $m;
-    drush_log($msg, $level);
+function run(ACC\ConfiguratorInterface $conf)
+{
+    $output = $conf->configure();
+    foreach ($output as $m) {
+        list($msg, $level) = $m;
+        drush_log($msg, $level);
+    }
 }
 
+run(new ACC\TypesConfigurator());
 drush_log('Types configuration done.', 'success');
 
-//include_once DRUPAL_ROOT.'/profiles/ac/ac.install';
-$blockConf = new ACC\BlocksConfigurator();
-$output = $blockConf->configure();
-foreach ($output as $m) {
-    list($msg, $level) = $m;
-    drush_log($msg, $level);
-}
+run(new ACC\BlocksConfigurator());
 
 drush_log('Blocks configuration done.', 'success');
+
+run(new ACC\FiltersConfigurator());
+
+drush_log('Filters configuration done.', 'success');
+
 /*
 include_once DRUPAL_ROOT.'/profiles/ac/includes/filters.inc';
 ac_configure_filters();

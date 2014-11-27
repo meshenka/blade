@@ -6,7 +6,7 @@
 
 namespace Drupal\ac\Configuration;
 
-class TypeConfigurator extends AbstractConfigurator
+class TypesConfigurator extends AbstractConfigurator
 {
     public function typeTaxonomy()
     {
