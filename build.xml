@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+
+<project name="Blade Profile Drupal 7" default="build" basedir="." description="This is an example buildfile for Phing.">
+	<target name="prepare">
+		<mkdir dir="docs"/>
+	</target>
+	
+	<target name="reports" depends="prepare">
+        <exec command="drush aa --html --bootstrap > docs/aa.html" dir="."/>
+	</target>
+		
+	<target name="docs" depends="prepare">
+		<phpdoc2 title="Blade Profile Doc" destdir="docs">
+			<fileset dir=".">
+				<include name="**/*.*.php"/>
+                <include name="**/.*.inc"/>
+                <include name="**/.*.module"/>
+                <include name="**/.*.install"/>
+			</fileset>
+		</phpdoc2>
+	</target>
+	
+	<target name="build" depends="reports">
+        <exec command="drush src profiles/ac/drush/init.php" dir="."/>
+	</target>
+
+	<target name="clean">
+		<delete dir="docs"/>
+	</target>
+</project>

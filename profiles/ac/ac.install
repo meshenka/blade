@@ -1,8 +1,12 @@
 <?php
 /**
+ * @package Blade
+ * @subpackage Profile
  * @file
  * Install, update and uninstall functions for the standard installation profile.
  */
+
+use Drupal\ac\Configuration\TypeConfigurator;
 
 /**
  * Implements hook_install().
@@ -19,8 +23,13 @@ function ac_install()
     include_once DRUPAL_ROOT.'/profiles/ac/includes/blocks.inc';
     ac_configure_blocks();
 
-    include_once DRUPAL_ROOT.'/profiles/ac/includes/types.inc';
-    ac_configure_types();
+    //include_once DRUPAL_ROOT.'/profiles/ac/ac.install';
+    $typeConf = new TypeConfigurator();
+    $output = $typeConf->configure();
+    foreach ($output as $m) {
+        list($msg, $level) = $m;
+        watchdog_log('ac', $msg, $level);
+    }
 
     include_once DRUPAL_ROOT.'/profiles/ac/includes/roles.inc';
     ac_configure_roles();

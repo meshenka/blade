@@ -13,7 +13,8 @@
   },
   "autoload": {
         "psr-0": {
-          "Blade\\": "sites/all/libraries/rs/"
+          "Blade\\": "sites/all/libraries/rs/",
+          "Drupal\\ac\\": "profiles/ac/lib/"
         }
     }
 }

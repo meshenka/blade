@@ -1,6 +1,6 @@
 # Ignore configuration files that may contain sensitive information.
 sites/*/settings*.php
-
+docs/
 # Ignore paths that contain user-generated content.
 sites/*/files
 sites/*/private
@@ -14,3 +14,6 @@ sites/all/libraries/composer
 sites/all/libraries/autoload.php
 sites/all/libraries/swiftmailer
 sites/all/libraries/zendframework
+*.make
+sites/all/drush
+sites/all/modules
