@@ -5,17 +5,27 @@ include_once DRUPAL_ROOT.'/sites/all/libraries/autoload.php';
 /**
  * this is a drush script to manualy run initialisation
  */
-use Drupal\ac\Configuration\TypeConfigurator;
+use Drupal\ac\Configuration as ACC;
 
 //include_once DRUPAL_ROOT.'/profiles/ac/ac.install';
-$typeConf = new TypeConfigurator();
+$typeConf = new ACC\TypeConfigurator();
 $output = $typeConf->configure();
 foreach ($output as $m) {
     list($msg, $level) = $m;
     drush_log($msg, $level);
 }
 
-drush_log('Done', 'success');
+drush_log('Types configuration done.', 'success');
+
+//include_once DRUPAL_ROOT.'/profiles/ac/ac.install';
+$blockConf = new ACC\BlocksConfigurator();
+$output = $blockConf->configure();
+foreach ($output as $m) {
+    list($msg, $level) = $m;
+    drush_log($msg, $level);
+}
+
+drush_log('Blocks configuration done.', 'success');
 /*
 include_once DRUPAL_ROOT.'/profiles/ac/includes/filters.inc';
 ac_configure_filters();
