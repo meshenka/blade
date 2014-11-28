@@ -6,6 +6,7 @@
     <!-- <taskdef name="drush" classname="DrushTask" /> -->
 
 	<target name="prepare">
+		<composer command="install" composer="${composer.bin}"/>
 		<mkdir dir="docs"/>
 		<mkdir dir="sites/all/modules"/>
 		
@@ -16,18 +17,22 @@
 		<echo message="Preparation done."/>
 	</target>
 	
-	<target name="reports" depends="prepare">
+	<target name="reports" depends="prepare, build">
         <exec command="drush aa --html --bootstrap > docs/aa.html" dir="."/>
 		<echo message="Audit report done done."/>
 	</target>
 		
-	<target name="docs" depends="prepare">
+	<target name="docs" depends="prepare, build">
 		<phpdoc2 title="Blade Profile Doc" destdir="docs">
-			<fileset dir=".">
-				<include name="**/*.*.php"/>
-                <include name="**/.*.inc"/>
-                <include name="**/.*.module"/>
-                <include name="**/.*.install"/>
+			<fileset dir="profiles/blade">
+				<exclude name="modules/contrib/**" />
+				<exclude name="themes/contrib/**" />
+				<exclude name="themes/bootstrap/**" />
+				<include name="**/*.php"/>
+                <include name="**/*.inc"/>
+                <include name="**/*.module"/>
+                <include name="**/*.install"/>
+                <include name="**/*.profile"/>
 			</fileset>
 		</phpdoc2>
 		<echo message="Phpdoc generated."/>
@@ -35,8 +40,7 @@
 	</target>
 	
 	<target name="build" depends="prepare">
-		<composer command="install" composer="${composer.bin}"/>
-        <exec command="${drush.bin} src profiles/blade/drush/init.php" dir="."/>
+        <exec command="${drush.bin} scr profiles/blade/drush/init.php" dir="."/>
 		<echo message="Build done."/>
 	</target>
 

@@ -15,12 +15,12 @@ function ac_configure_themes()
     db_update('system')
         ->fields(array('status' => 1))
         ->condition('type', 'theme')
-        ->condition('name', 'flatac')
+        ->condition('name', 'flatground')
         ->execute();
 
-    variable_set('theme_default', 'flatac');
+    variable_set('theme_default', 'flatground');
 
-    variable_set('theme_flatac_settings', array(
+    variable_set('theme_flatground_settings', array(
         'toggle_logo' => 1,
         'toggle_name' => 1,
         'toggle_slogan' => 1,
@@ -28,10 +28,10 @@ function ac_configure_themes()
         'toggle_main_menu' => 0,
         'toggle_secondary_menu' => 0,
         'default_logo' => 0,
-        'logo_path' => '/profiles/ac/themes/custom/flatac/images/knuckles-small.png',
+        'logo_path' => '/profiles/blade/themes/custom/flatground/images/knuckles-small.png',
         //'logo_upload' =>,
         'default_favicon' => 1,
-        'favicon_path' => '/profiles/ac/themes/custom/flatac/favicon.ico',
+        'favicon_path' => '/profiles/blade/themes/custom/flatground/favicon.ico',
         'zen_breadcrumb' => 'yes',
         'zen_breadcrumb_separator' => ' › ',
         'zen_breadcrumb_home' => 1,

@@ -4,13 +4,13 @@
  * @subpackage Profile
  */
 
-namespace Drupal\ac\Configuration;
+namespace Drupal\blade\Configuration;
 
 class BlocksConfigurator extends AbstractConfigurator
 {
     public function configure()
     {    // Enable some standard blocks.
-        $default_theme = variable_get('theme_default', 'flatac');
+        $default_theme = variable_get('theme_default', 'flatground');
         $admin_theme = 'seven';
 
         $blocks = array(
