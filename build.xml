@@ -1,12 +1,24 @@
 <?xml version="1.0"?>
 
-<project name="Blade Profile Drupal 7" default="build" basedir="." description="This is an example buildfile for Phing.">
+<project name="Blade Profile Drupal 7" default="build" basedir="." description="Build blade.">
+	<property name="drush.bin" value="bin/drush"/>
+	<property name="composer.bin" value="/usr/local/bin/composer"/>
+    <!-- <taskdef name="drush" classname="DrushTask" /> -->
+
 	<target name="prepare">
 		<mkdir dir="docs"/>
+		<mkdir dir="sites/all/modules"/>
+		
+		<symlink target="${project.basedir}/profiles/blade/modules/contrib" link="sites/all/modules/contrib" overwrite="true" />
+		<symlink target="${project.basedir}/profiles/blade/modules/custom" link="sites/all/modules/custom" overwrite="true" />
+		<symlink target="${project.basedir}/profiles/blade/themes" link="sites/all/themes" overwrite="true" />
+
+		<echo message="Preparation done."/>
 	</target>
 	
 	<target name="reports" depends="prepare">
         <exec command="drush aa --html --bootstrap > docs/aa.html" dir="."/>
+		<echo message="Audit report done done."/>
 	</target>
 		
 	<target name="docs" depends="prepare">
@@ -18,13 +30,19 @@
                 <include name="**/.*.install"/>
 			</fileset>
 		</phpdoc2>
+		<echo message="Phpdoc generated."/>
+
 	</target>
 	
-	<target name="build" depends="reports">
-        <exec command="drush src profiles/ac/drush/init.php" dir="."/>
+	<target name="build" depends="prepare">
+		<composer command="install" composer="${composer.bin}"/>
+        <exec command="${drush.bin} src profiles/blade/drush/init.php" dir="."/>
+		<echo message="Build done."/>
 	</target>
 
 	<target name="clean">
 		<delete dir="docs"/>
+		<delete file="sites/all/modules/contrib"/>
+		<delete file="sites/all/modules/custom"/>
 	</target>
 </project>

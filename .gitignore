@@ -15,6 +15,13 @@ sites/all/libraries/composer
 sites/all/libraries/autoload.php
 sites/all/libraries/swiftmailer
 sites/all/libraries/zendframework
+sites/all/libraries/drupal
+sites/all/libraries/drush
+sites/all/libraries/phing
+sites/all/libraries/pdepend
+sites/all/libraries/phpmd
+sites/all/libraries/squizlabs
+
 *.make
 sites/all/drush
 sites/all/modules
