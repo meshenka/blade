@@ -11,9 +11,12 @@ use Drupal\blade\Configuration as Blade;
 
 $conf = new Blade\ConfigurationRunner();
 $conf
-    ->pipe(new Blade\TypesConfigurator())
-    ->pipe(new Blade\BlocksConfigurator())
+    ->pipe(new Blade\ThemesConfigurator())
     ->pipe(new Blade\FiltersConfigurator())
+    ->pipe(new Blade\TypesConfigurator())
+    ->pipe(new Blade\MenusConfigurator())
+    ->pipe(new Blade\BlocksConfigurator())
+    ->pipe(new Blade\RolesConfigurator())
 ;
 
 $output = $conf->run();
@@ -24,9 +27,6 @@ foreach ($output as $m) {
 }
 
 /*
-
-include_once DRUPAL_ROOT.'/profiles/ac/includes/roles.inc';
-ac_configure_roles();
 
 include_once DRUPAL_ROOT.'/profiles/ac/includes/menus.inc';
 ac_configure_menus();
