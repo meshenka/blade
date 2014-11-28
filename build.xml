@@ -1,37 +1,64 @@
 <?xml version="1.0"?>
 
-<project name="Blade Profile Drupal 7" default="profile" basedir="." description="Build blade.">
-	<property name="drush.bin" value="bin/drush"/>
+<project name="Blade Profile Drupal 7" default="build" basedir="." description="Build blade.">
+
+	<property name="project.toolsdir" value="${project.basedir}/bin" />
+	<property name="project.auditdir" value="${project.basedir}/audit" />
+	<property name="project.builddir" value="${project.basedir}/build" />
+	<property name="project.docsdir" value="${project.basedir}/docs" />
+
+	<property name="drush.false" value="0" />
+	
+	<property name="project.vendorsdir" value="${project.basedir}/sites/all/libraries" />
+	<property name="project.profiledir" value="${project.basedir}/profiles/blade" />
+	<property name="drush.bin" value="${project.toolsdir}/drush"/>
 	<property name="composer.bin" value="/usr/local/bin/composer"/>
+
+
     <!-- <taskdef name="drush" classname="DrushTask" /> -->
+	<taskdef name="drush" classname="DrushTask"
+             classpath="${project.vendorsdir}/drupal/phing-drush-task" />
+
+	<target name="composer-install" description="Install dependencies">
+		<composer command="install" composer="${composer.bin}"/>
+		<echo message="install dependencies done."/>
+	</target>
 
 	<target name="prepare" description="Prepare project installation">
-		<composer command="install" composer="${composer.bin}"/>
-		<mkdir dir="docs"/>
+		<mkdir dir="${project.docsdir}"/>
 		<mkdir dir="sites/all/modules"/>
+		<mkdir dir="${project.auditdir}"/>
+		<mkdir dir="${project.builddir}"/>
 		
-		<symlink target="${project.basedir}/profiles/blade/modules/contrib" link="sites/all/modules/contrib" overwrite="true" />
-		<symlink target="${project.basedir}/profiles/blade/modules/custom" link="sites/all/modules/custom" overwrite="true" />
-		<symlink target="${project.basedir}/profiles/blade/themes" link="sites/all/themes" overwrite="true" />
+		<symlink target="${project.profiledir}/modules/contrib" link="sites/all/modules/contrib" overwrite="true" />
+		<symlink target="${project.profiledir}/modules/custom" link="sites/all/modules/custom" overwrite="true" />
+		<symlink target="${project.profiledir}/themes" link="sites/all/themes" overwrite="true" />
 
 		<echo message="Preparation done."/>
 	</target>
 
 	<!-- run once after github cloning	 -->
-	<target name="install" depends="prepare, profile" description="Full installation for a fresh instance">
+	<target name="install" depends="prepare, build" description="Full installation for a fresh instance">
 		<!-- drush make to download all dependencies -->
 		<echo message="@TODO implement me"/>
 	</target>
 
 
-	<target name="reports" depends="prepare, profile" description="Generate drupal site audit">
-        <exec command="drush aa --html --bootstrap > docs/aa.html" dir="."/>
+	<target name="drush-audit" depends="prepare" description="Generate drupal site audit">
+        <drush command="audit_all" assume="yes" returnProperty="reports" >
+        	<option name="html"/>
+        	<option name="bootstrap"/>
+        </drush>
+
+    	<delete file="${project.auditdir}/audit-all.html" />
+    	<append text="${reports}" destFile="${project.auditdir}/audit-all.html" />
+
 		<echo message="Audit report done."/>
 	</target>
 		
-	<target name="docs" depends="prepare, profile" description="Generate phpdoc">
+	<target name="phpdoc" depends="prepare" description="Generate phpdoc">
 		<phpdoc2 title="Blade Profile Doc" destdir="docs">
-			<fileset dir="profiles/blade">
+			<fileset dir="${project.profiledir}">
 				<exclude name="modules/contrib/**" />
 				<exclude name="themes/contrib/**" />
 				<exclude name="themes/bootstrap/**" />
@@ -46,13 +73,110 @@
 
 	</target>
 	
-	<target name="profile" depends="prepare" description="Run profile installation">
-        <exec command="${drush.bin} scr profiles/blade/drush/init.php" dir="."/>
+	<target name="drush-init" depends="prepare" description="Run profile installation">
+        <drush command="scr ${project.profiledir}/drush/init.php" />
 		<echo message="Profile configured done."/>
 	</target>
 
+	<target name="build"  depends="composer-install, prepare, drush-audit, phpdoc, drush-init" description="build application">
+	</target>
+	
+	<target name="drupal-conf-dev" description="setup drupal for developpment configuration">
+        <drush command="en" assume="yes" >
+        	<param>devel</param>
+        </drush>
+
+        <drush command="vset" assume="yes" >
+        	<param>less_devel</param>
+        	<param>1</param>
+        </drush>
+
+        <drush command="vset" assume="yes" >
+        	<param>css_gzip_compression</param>
+        	<param>0</param>
+        </drush>
+
+        <drush command="vset" assume="yes" >
+        	<param>js_gzip_compression</param>
+        	<param>0</param>
+        </drush>
+	</target>
+	
+	<target name="drupal-conf-prod" description="setup drupal for developpment configuration">
+        <drush command="dis" assume="yes" >
+        	<param>views_ui</param>
+        	<param>context_ui</param>
+        	<param>field_ui</param>
+        	<param>devel_themer</param>
+        	<param>devel</param>
+			<param>dblog</param>
+			<param>overlay</param>
+        </drush>
+        <drush command="en" assume="yes" >
+        	<param>syslog</param>
+        </drush>
+
+        <drush command="vset" assume="yes" >
+        	<param>less_devel</param>
+        	<param>${drush.false}</param>
+        </drush>
+
+        <drush command="vset" assume="yes" >
+        	<param>cache</param>
+        	<param>1</param>
+        </drush>
+
+        <drush command="vset" assume="yes" >
+        	<param>block_cache</param>
+        	<param>1</param>
+        </drush>
+
+        <drush command="vset" assume="yes" >
+        	<param>cache_lifetime</param>
+        	<param>${drush.false}</param>
+        </drush>
+
+        <drush command="vset" assume="yes" >
+        	<param>cache_page_maximum_age</param>
+        	<param>3600</param>
+        </drush>
+
+        <drush command="vset" assume="yes" >
+        	<param>page_compression</param>
+        	<param>1</param>
+        </drush>
+
+        <drush command="vset" assume="yes" >
+        	<param>preprocess_js</param>
+        	<param>1</param>
+        </drush>
+
+        <drush command="vset" assume="yes" >
+        	<param>preprocess_css</param>
+        	<param>1</param>
+        </drush>
+
+        <drush command="vset" assume="yes" >
+        	<param>js_gzip_compression</param>
+        	<param>1</param>
+        </drush>
+		
+		<drush command="vset" assume="yes" >
+        	<param>css_gzip_compression</param>
+        	<param>1</param>
+        </drush>
+
+		<drush command="vset" assume="yes" >
+        	<param>error_level</param>
+        	<param>${drush.false}</param>
+        </drush>
+
+	</target>
+
 	<target name="clean"  description="Cleanup">
-		<delete dir="docs"/>
+		<delete dir="${project.docsdir}"/>
+		<delete dir="${project.auditdir}"/>
+		<delete dir="${project.builddir}"/>
 		<delete file="sites/all/modules/contrib"/>
 		<delete file="sites/all/modules/custom"/>
 		<delete file="sites/all/themes"/>

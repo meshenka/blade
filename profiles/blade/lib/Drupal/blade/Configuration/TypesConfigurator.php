@@ -12,17 +12,28 @@ namespace Drupal\blade\Configuration;
  */
 class TypesConfigurator extends AbstractConfigurator
 {
+    protected function createTerm($name, $vid)
+    {
+        $term = new \stdClass();
+        $term->name = $name;
+        $term->vid = $vid;
+        taxonomy_term_save($term);
+    }
+
     public function typeTaxonomy()
     {
         //Tags
         $vocabulary = (object) array(
-            'name' => st('Product types'),
+            'name' => 'Type de produit',
             'description' => 'Typologie de produits',
             'machine_name' => 'types',
         );
 
         try {
             taxonomy_vocabulary_save($vocabulary);
+            $this->createTerm('Couteau Droit', $vocabulary->vid, $vocabulary->machine_name);
+            $this->createTerm('Pliant à mécanisme', $vocabulary->vid, $vocabulary->machine_name);
+            $this->createTerm('Piémontais', $vocabulary->vid, $vocabulary->machine_name);
         } catch (\PDOException $ex) {
             $this->log("Vocabulary {$vocabulary->name} already created");
         }
@@ -53,6 +64,74 @@ class TypesConfigurator extends AbstractConfigurator
             'field_name' => 'field_'.$vocabulary->machine_name,
             'entity_type' => 'node',
             'label' => 'Type',
+            'bundle' => 'product',
+            'description' => $help,
+            'widget' => array(
+                'type' => 'taxonomy_autocomplete',
+                'weight' => -4,
+                ),
+            'display' => array(
+                'default' => array(
+                    'type' => 'taxonomy_term_reference_link',
+                    'weight' => 10,
+                    ),
+                'teaser' => array(
+                    'type' => 'taxonomy_term_reference_link',
+                    'weight' => 10,
+                    ),
+                ),
+            );
+        try {
+            field_create_instance($instance);
+        } catch (\FieldException $ex) {
+            $this->log("Instance {$instance['field_name']} already created");
+        }
+    }
+
+    public function availabilityTaxonomy()
+    {
+        //Tags
+        $vocabulary = (object) array(
+            'name' => 'Disponibilité',
+            'description' => 'Disponibilité des produits',
+            'machine_name' => 'availability',
+        );
+
+        try {
+            taxonomy_vocabulary_save($vocabulary);
+            $this->createTerm('Disponible', $vocabulary->vid, $vocabulary->machine_name);
+            $this->createTerm('Réservé', $vocabulary->vid, $vocabulary->machine_name);
+            $this->createTerm('Vendu', $vocabulary->vid, $vocabulary->machine_name);
+        } catch (\PDOException $ex) {
+            $this->log("Vocabulary {$vocabulary->name} already created");
+        }
+
+        $field = array(
+            'field_name' => 'field_'.$vocabulary->machine_name,
+            'type' => 'taxonomy_term_reference',
+            // Set cardinality to 1 for type
+            'cardinality' => 1,
+            'settings' => array(
+                'allowed_values' => array(
+                    array(
+                        'vocabulary' => $vocabulary->machine_name,
+                        'parent' => 0,
+                    ),
+                ),
+            ),
+        );
+
+        try {
+            field_create_field($field);
+        } catch (\FieldException $ex) {
+            $this->log("Field {$field['field_name']} already created");
+        }
+
+        $help = st('Select availability of the product.');
+        $instance = array(
+            'field_name' => 'field_'.$vocabulary->machine_name,
+            'entity_type' => 'node',
+            'label' => 'Disponibilité',
             'bundle' => 'product',
             'description' => $help,
             'widget' => array(
@@ -239,6 +318,7 @@ class TypesConfigurator extends AbstractConfigurator
 
         $this->typeTaxonomy();
         $this->tagsTaxonomy();
+        $this->availabilityTaxonomy();
 
         // Create an image field named "Image", enabled for the 'article' content type.
         // Many of the following values will be defaulted, they're included here as an illustrative examples.
