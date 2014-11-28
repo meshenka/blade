@@ -15,7 +15,23 @@ function products_menu()
     return $items;
 }
 
+/**
+ * latests product pages
+ */
 function products_latest()
 {
     return 'test';
+}
+
+/**
+ * blocks
+ *   - 3 latests products in home
+ *   - 3 latests available products
+ */
+function products_block_list()
+{
+}
+
+function products_block_view()
+{
 }
