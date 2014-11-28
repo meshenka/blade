@@ -6,6 +6,9 @@
 
 namespace Drupal\blade\Configuration;
 
+/**
+ * Specific configurator for Blade profile
+ */
 class BladeConfiguration extends ConfigurationRunner
 {
     public function __construct()

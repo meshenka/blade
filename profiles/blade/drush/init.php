@@ -9,11 +9,19 @@
 include_once DRUPAL_ROOT.'/sites/all/libraries/autoload.php';
 use Drupal\blade\Configuration as Blade;
 
-$conf = new Blade\BladeConfiguration();
+blade_drush_init();
 
-$output = $conf->run();
+/**
+ * run Blade profile configuration
+ */
+function blade_drush_init()
+{
+    $conf = new Blade\BladeConfiguration();
 
-foreach ($output as $m) {
-    list($msg, $level) = $m;
-    drush_log($msg, $level);
+    $output = $conf->run();
+
+    foreach ($output as $m) {
+        list($msg, $level) = $m;
+        drush_log($msg, $level);
+    }
 }

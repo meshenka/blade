@@ -6,6 +6,9 @@
 
 namespace Drupal\blade\Configuration;
 
+/**
+ * Configure administrator and webmaster roles
+ */
 class RolesConfigurator extends AbstractConfigurator
 {
     public function configure()
@@ -37,6 +40,8 @@ class RolesConfigurator extends AbstractConfigurator
         $webmaster_role->weight = 3;
         try {
             user_role_save($webmaster_role);
+
+            //@TODO assign permissions for webmaster
             $this->log("Role {$webmaster_role->name} initialized", self::LEVEL_SUCCESS);
         } catch (\PDOException $ex) {
             $this->log("Role {$webmaster_role->name} already created", self::LEVEL_SUCCESS);

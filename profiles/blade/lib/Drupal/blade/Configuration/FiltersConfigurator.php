@@ -6,6 +6,9 @@
 
 namespace Drupal\blade\Configuration;
 
+/**
+ * Configure text Fields input format filters
+ */
 class FiltersConfigurator extends AbstractConfigurator
 {
     public function configure()

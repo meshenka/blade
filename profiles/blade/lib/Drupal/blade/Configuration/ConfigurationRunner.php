@@ -9,6 +9,9 @@
 
 namespace Drupal\blade\Configuration;
 
+/**
+ * A class to run a stack of ConfiguratorInterface
+ */
 class ConfigurationRunner
 {
     private $configurators = [];

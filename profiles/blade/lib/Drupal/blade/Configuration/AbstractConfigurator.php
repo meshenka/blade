@@ -6,6 +6,9 @@
 
 namespace Drupal\blade\Configuration;
 
+/**
+ * provide a helper to manage log message
+ */
 abstract class AbstractConfigurator implements ConfiguratorInterface
 {
     private $messages = [];

@@ -9,6 +9,10 @@
 
 include_once dirname(__FILE__).'/bootstrap/menu.inc';
 
+/**
+ * HOOK_preprocess_page() we remove $title from page.tpl.php when we display a home node
+ * @param array $variables
+ */
 function flatground_preprocess_page(&$variables)
 {
     //kpr($variables);

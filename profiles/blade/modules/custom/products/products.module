@@ -1,5 +1,13 @@
 <?php
+/**
+ * @package Blade
+ * @subpackage DrupalModule
+ */
 
+/**
+ * implementes drupal HOOK_menu
+ * add path products for product landing page
+ */
 function products_menu()
 {
     $items = array();
@@ -16,7 +24,7 @@ function products_menu()
 }
 
 /**
- * latests product pages
+ * latests product pages route callback
  */
 function products_latest()
 {

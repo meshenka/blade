@@ -6,6 +6,9 @@
 
 namespace Drupal\blade\Configuration;
 
+/**
+ * Configure Main menu
+ */
 class MenusConfigurator extends AbstractConfigurator
 {
     public function configure()
