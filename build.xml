@@ -16,7 +16,13 @@
 
 		<echo message="Preparation done."/>
 	</target>
-	
+
+	<!-- run once after github cloning	 -->
+	<target name="install" depends="prepare, build">
+		<!-- drush make to download all dependencies -->
+	</target>
+
+
 	<target name="reports" depends="prepare, build">
         <exec command="drush aa --html --bootstrap > docs/aa.html" dir="."/>
 		<echo message="Audit report done done."/>

@@ -7,27 +7,21 @@
  */
 
 include_once DRUPAL_ROOT.'/sites/all/libraries/autoload.php';
-use Drupal\blade\Configuration as ACC;
+use Drupal\blade\Configuration as Blade;
 
-function run(ACC\ConfiguratorInterface $conf)
-{
-    $output = $conf->configure();
-    foreach ($output as $m) {
-        list($msg, $level) = $m;
-        drush_log($msg, $level);
-    }
+$conf = new Blade\ConfigurationRunner();
+$conf
+    ->pipe(new Blade\TypesConfigurator())
+    ->pipe(new Blade\BlocksConfigurator())
+    ->pipe(new Blade\FiltersConfigurator())
+;
+
+$output = $conf->run();
+
+foreach ($output as $m) {
+    list($msg, $level) = $m;
+    drush_log($msg, $level);
 }
-
-run(new ACC\TypesConfigurator());
-drush_log('Types configuration done.', 'success');
-
-run(new ACC\BlocksConfigurator());
-
-drush_log('Blocks configuration done.', 'success');
-
-run(new ACC\FiltersConfigurator());
-
-drush_log('Filters configuration done.', 'success');
 
 /*
 

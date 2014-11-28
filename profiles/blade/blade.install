@@ -6,6 +6,7 @@
  * Install, update and uninstall functions for the standard installation profile.
  */
 
+use Drupal\blade\Configuration as Blade;
 
 /**
  * Implements hook_install().
@@ -13,7 +14,21 @@
  * Perform actions to set up the site for this profile.
  *
  * @see system_install()
+ * TODO voir comment mutualiser le code avec la commande drush
  */
 function blade_install()
 {
+    $conf = new Blade\ConfigurationRunner();
+    $conf
+        ->pipe(new Blade\TypesConfigurator())
+        ->pipe(new Blade\BlocksConfigurator())
+        ->pipe(new Blade\FiltersConfigurator())
+    ;
+
+    $output = $conf->run();
+
+    foreach ($output as $m) {
+        list($msg, $level) = $m;
+        watchdog('blade', $msg, WATCHDOG_INFO);
+    }
 }

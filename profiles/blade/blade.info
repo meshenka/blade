@@ -37,6 +37,7 @@ dependencies[] = migrate
 
 ; custom dependencies
 dependencies[] = products
+dependencies[] = flatground
 
 ; Information added by Drupal.org packaging script on 2014-11-19
 version = "7.x-1.0"
