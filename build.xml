@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 
-<project name="Blade Profile Drupal 7" default="build" basedir="." description="Build blade.">
+<project name="Blade Profile Drupal 7" default="profile" basedir="." description="Build blade.">
 	<property name="drush.bin" value="bin/drush"/>
 	<property name="composer.bin" value="/usr/local/bin/composer"/>
     <!-- <taskdef name="drush" classname="DrushTask" /> -->
 
-	<target name="prepare">
+	<target name="prepare" description="Prepare project installation">
 		<composer command="install" composer="${composer.bin}"/>
 		<mkdir dir="docs"/>
 		<mkdir dir="sites/all/modules"/>
@@ -18,17 +18,18 @@
 	</target>
 
 	<!-- run once after github cloning	 -->
-	<target name="install" depends="prepare, build">
+	<target name="install" depends="prepare, profile" description="Full installation for a fresh instance">
 		<!-- drush make to download all dependencies -->
+		<echo message="@TODO implement me"/>
 	</target>
 
 
-	<target name="reports" depends="prepare, build">
+	<target name="reports" depends="prepare, profile" description="Generate drupal site audit">
         <exec command="drush aa --html --bootstrap > docs/aa.html" dir="."/>
-		<echo message="Audit report done done."/>
+		<echo message="Audit report done."/>
 	</target>
 		
-	<target name="docs" depends="prepare, build">
+	<target name="docs" depends="prepare, profile" description="Generate phpdoc">
 		<phpdoc2 title="Blade Profile Doc" destdir="docs">
 			<fileset dir="profiles/blade">
 				<exclude name="modules/contrib/**" />
@@ -45,14 +46,15 @@
 
 	</target>
 	
-	<target name="build" depends="prepare">
+	<target name="profile" depends="prepare" description="Run profile installation">
         <exec command="${drush.bin} scr profiles/blade/drush/init.php" dir="."/>
-		<echo message="Build done."/>
+		<echo message="Profile configured done."/>
 	</target>
 
-	<target name="clean">
+	<target name="clean"  description="Cleanup">
 		<delete dir="docs"/>
 		<delete file="sites/all/modules/contrib"/>
 		<delete file="sites/all/modules/custom"/>
+		<delete file="sites/all/themes"/>
 	</target>
 </project>
