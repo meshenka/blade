@@ -19,4 +19,17 @@ class BladeConfiguration extends ConfigurationRunner
             ->pipe(new RolesConfigurator())
         ;
     }
+
+    /**
+     * to match HOOK_install
+     */
+    public function install()
+    {
+        $output = $this->run();
+
+        foreach ($output as $m) {
+            list($msg, $level) = $m;
+            watchdog('blade', $msg, WATCHDOG_INFO);
+        }
+    }
 }

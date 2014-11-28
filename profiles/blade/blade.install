@@ -18,10 +18,5 @@ use Drupal\blade\Configuration as Blade;
 function blade_install()
 {
     $conf = new Blade\BladeConfiguration();
-    $output = $conf->run();
-
-    foreach ($output as $m) {
-        list($msg, $level) = $m;
-        watchdog('blade', $msg, WATCHDOG_INFO);
-    }
+    $conf->install();
 }
