@@ -4,7 +4,7 @@
  * @subpackage Profile
  */
 
-namespace Drupal\ac\Configuration;
+namespace Drupal\blade\Configuration;
 
 class FiltersConfigurator extends AbstractConfigurator
 {

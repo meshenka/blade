@@ -4,7 +4,7 @@
  * @author meshenka <meshee.knight@gmail.com>
  */
 
-namespace Drupal\ac\Configuration;
+namespace Drupal\blade\Configuration;
 
 /**
  * generic profile configurator interface

@@ -3,18 +3,47 @@
   "description": "Composer pour drupal-ac installation profile",
   "type": "drupal-profile",
   "license": "GPL-2.0+",
+  "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "drupal/phing-drush-task",
+                "version": "1.0",
+                "source": {
+                    "url": "http://git.drupal.org/project/phingdrushtask.git",
+                    "type": "git",
+                    "reference": "7.x-1.0"
+                },
+                "autoload": {
+                    "classmap": [
+                        "DrushTask.php"
+                    ]
+                },
+                "include-path": [
+                    "."
+                ]
+            }
+        }
+  ],
+
   "require": {
     "zendframework/zendpdf": "2.*",
-    "swiftmailer/swiftmailer": "5.*"
+    "swiftmailer/swiftmailer": "5.*",
+    "phing/phing": "2.7.*",
+    "drupal/phing-drush-task": "1.0",
+    "drush/drush": "6.2.*",
+    "squizlabs/php_codesniffer": "1.5.*",
+    "phpmd/phpmd": "1.5.*"
   },
   "config": {
     "vendor-dir": "sites/all/libraries",
-    "preferred-install": "dist"
+    "preferred-install": "dist",
+    "bin-dir" : "bin/"
   },
   "autoload": {
         "psr-0": {
-          "Blade\\": "sites/all/libraries/rs/",
-          "Drupal\\ac\\": "profiles/ac/lib/"
+          "Blade\\": "sites/all/libraries/blade/",
+          "Drupal\\blade\\": "profiles/blade/lib/"
         }
     }
 }

@@ -1,10 +1,10 @@
 <?php
 /**
  * @package Blade
- * @subpackage profile
+ * @subpackage Profile
  */
 
-namespace Drupal\ac\Configuration;
+namespace Drupal\blade\Configuration;
 
 abstract class AbstractConfigurator implements ConfiguratorInterface
 {

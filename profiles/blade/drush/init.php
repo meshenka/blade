@@ -7,7 +7,7 @@
  */
 
 include_once DRUPAL_ROOT.'/sites/all/libraries/autoload.php';
-use Drupal\ac\Configuration as ACC;
+use Drupal\blade\Configuration as ACC;
 
 function run(ACC\ConfiguratorInterface $conf)
 {
