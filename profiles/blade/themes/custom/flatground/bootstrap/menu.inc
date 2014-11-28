@@ -7,7 +7,7 @@
 /**
  * Overrides theme_menu_link().
  */
-function flatac_menu_link(array $variables)
+function flatground_menu_link(array $variables)
 {
     $element = $variables['element'];
     $sub_menu = '';
@@ -46,7 +46,7 @@ function flatac_menu_link(array $variables)
 /**
  * Overrides theme_menu_tree().
  */
-function flatac_menu_tree(&$variables)
+function flatground_menu_tree(&$variables)
 {
     return '<ul class="menu nav text-center">'.$variables['tree'].'</ul>';
 }
@@ -54,7 +54,7 @@ function flatac_menu_tree(&$variables)
 /**
  * Bootstrap theme wrapper function for the primary menu links.
  */
-function flatac_menu_tree__primary(&$variables)
+function flatground_menu_tree__primary(&$variables)
 {
     return '<ul class="menu nav navbar-nav">'.$variables['tree'].'</ul>';
 }
@@ -62,7 +62,7 @@ function flatac_menu_tree__primary(&$variables)
 /**
  * Bootstrap theme wrapper function for the secondary menu links.
  */
-function flatac_menu_tree__secondary(&$variables)
+function flatground_menu_tree__secondary(&$variables)
 {
     return '<ul class="menu nav navbar-nav secondary">'.$variables['tree'].'</ul>';
 }
@@ -70,7 +70,7 @@ function flatac_menu_tree__secondary(&$variables)
 /**
  * Overrides theme_menu_local_tasks().
  */
-function flatac_menu_local_tasks(&$variables)
+function flatground_menu_local_tasks(&$variables)
 {
     $output = '';
 
@@ -94,7 +94,7 @@ function flatac_menu_local_tasks(&$variables)
 /**
  * Overrides theme_menu_local_task().
  */
-function flatac_menu_local_task($variables)
+function flatground_menu_local_task($variables)
 {
     $link = $variables['element']['#link'];
     $link_text = $link['title'];
@@ -121,7 +121,7 @@ function flatac_menu_local_task($variables)
 /**
  * Overrides theme_menu_local_action().
  */
-function flatac_menu_local_action($variables)
+function flatground_menu_local_action($variables)
 {
     $link = $variables['element']['#link'];
 

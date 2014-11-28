@@ -1,5 +1,5 @@
-name = Flat AC
-description = Install a flat AC drupal
+name = Blade
+description = Blade profile
 version = VERSION
 core = 7.x
 
@@ -33,12 +33,10 @@ dependencies[] = token
 dependencies[] = transliteration
 dependencies[] = xmlsitemap_node
 dependencies[] = menu_breadcrumb
+dependencies[] = migrate
 
 ; custom dependencies
 dependencies[] = products
-
-files[]= includes/configurator.inc
-files[]= includes/types.inc
 
 ; Information added by Drupal.org packaging script on 2014-11-19
 version = "7.x-1.0"

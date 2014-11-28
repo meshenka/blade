@@ -1,4 +1,4 @@
-# AC Installation Profile
+# Blade Installation Profile
 
 This installation profile embed modules, themes and all configuration to setup a drupal site
 
