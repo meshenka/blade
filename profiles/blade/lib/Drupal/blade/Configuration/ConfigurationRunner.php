@@ -14,6 +14,9 @@ namespace Drupal\blade\Configuration;
  */
 class ConfigurationRunner
 {
+    /**
+     * @var array
+     */
     private $configurators = [];
 
     /**

@@ -11,6 +11,9 @@ namespace Drupal\blade\Configuration;
  */
 class FiltersConfigurator extends AbstractConfigurator
 {
+    /**
+     * {@inheritdoc}
+     */
     public function configure()
     {    // Add text formats.
         $filtered_html_format = array(
