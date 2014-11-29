@@ -10,7 +10,7 @@ namespace Drupal\blade\Configuration;
  * Configure node types (page, news, product, home)
  * Configure vocabularies (tags and type)
  */
-class TypesConfigurator extends AbstractConfigurator
+final class TypesConfigurator extends AbstractConfigurator
 {
     protected function createTerm($name, $vid)
     {

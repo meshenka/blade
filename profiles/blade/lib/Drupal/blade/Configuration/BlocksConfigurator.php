@@ -9,7 +9,7 @@ namespace Drupal\blade\Configuration;
 /**
  * Configure Blocks
  */
-class BlocksConfigurator extends AbstractConfigurator
+final class BlocksConfigurator extends AbstractConfigurator
 {
     public function configure()
     {    // Enable some standard blocks.

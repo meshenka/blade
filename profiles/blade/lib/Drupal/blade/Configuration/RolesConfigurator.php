@@ -9,7 +9,7 @@ namespace Drupal\blade\Configuration;
 /**
  * Configure administrator and webmaster roles
  */
-class RolesConfigurator extends AbstractConfigurator
+final class RolesConfigurator extends AbstractConfigurator
 {
     public function configure()
     {

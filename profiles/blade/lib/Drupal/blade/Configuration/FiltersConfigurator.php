@@ -9,7 +9,7 @@ namespace Drupal\blade\Configuration;
 /**
  * Configure text Fields input format filters
  */
-class FiltersConfigurator extends AbstractConfigurator
+final class FiltersConfigurator extends AbstractConfigurator
 {
     /**
      * {@inheritdoc}

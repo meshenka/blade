@@ -9,7 +9,7 @@ namespace Drupal\blade\Configuration;
 /**
  * Configure admin and front office theme
  */
-class ThemesConfigurator extends AbstractConfigurator
+final class ThemesConfigurator extends AbstractConfigurator
 {
     public function configure()
     {

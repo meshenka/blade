@@ -12,7 +12,7 @@ namespace Drupal\blade\Configuration;
 /**
  * A class to run a stack of ConfiguratorInterface
  */
-class ConfigurationRunner
+final class ConfigurationRunner implements ConfigurationRunnerInterface
 {
     /**
      * @var array

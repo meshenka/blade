@@ -9,11 +9,14 @@ namespace Drupal\blade\Configuration;
 /**
  * Specific configurator for Blade profile
  */
-class BladeConfiguration extends ConfigurationRunner
+class BladeConfiguration implements ConfigurationRunnerInterface
 {
+    private $runner;
     public function __construct()
     {
-        $this
+        $this->runner = new ConfigurationRunner();
+
+        $this->runner
             ->pipe(new ThemesConfigurator())
             ->pipe(new FiltersConfigurator())
             ->pipe(new TypesConfigurator())
@@ -21,6 +24,16 @@ class BladeConfiguration extends ConfigurationRunner
             ->pipe(new BlocksConfigurator())
             ->pipe(new RolesConfigurator())
         ;
+    }
+
+    public function pipe(ConfiguratorInterface $conf)
+    {
+        return $this->runner->pipe($conf);
+    }
+
+    public function run()
+    {
+        return $this->runner->run();
     }
 
     /**
