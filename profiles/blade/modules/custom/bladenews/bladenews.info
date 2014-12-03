@@ -1,0 +1,13 @@
+name = Blade News DataProvider
+description = Un module pour gérer l'import d'actualité depuis les réseaux sociaux
+core = 7.x
+package = Blade
+
+; Information added by Drupal.org packaging script on 2014-11-19
+version = "7.x-1.0"
+core = "7.x"
+project = "bladenews"
+datestamp = "1416423525"
+
+configure = admin/config/services/bladenews
+

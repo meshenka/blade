@@ -33,7 +33,9 @@
     "drupal/phing-drush-task": "1.0",
     "drush/drush": "6.5.0",
     "squizlabs/php_codesniffer": "1.5.*",
-    "phpmd/phpmd": "1.5.*"
+    "phpmd/phpmd": "1.5.*",
+    "facebook/php-sdk-v4" : "4.0.*",
+    "guzzlehttp/guzzle" : "~4.0"
   },
   "config": {
     "vendor-dir": "sites/all/libraries",

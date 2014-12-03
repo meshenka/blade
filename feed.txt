@@ -1,0 +1,73 @@
+stdClass Object
+(
+    [id] => 10152882886454592_10152870410834592
+    [from] => stdClass Object
+        (
+            [id] => 10152882886454592
+            [name] => Sylvain Gogel
+        )
+
+    [story] => Sylvain Gogel shared a link.
+    [story_tags] => stdClass Object
+        (
+            [0] => Array
+                (
+                    [0] => stdClass Object
+                        (
+                            [id] => 10152882886454592
+                            [name] => Sylvain Gogel
+                            [offset] => 0
+                            [length] => 13
+                            [type] => user
+                        )
+
+                )
+
+        )
+
+    [picture] => https://fbexternal-a.akamaihd.net/safe_image.php?d=AQD84oeetY2DdghA&w=158&h=158&url=http%3A%2F%2Fgift.mercialfred.com%2Foperations%2Fone_shot_infographie_metiers_dechiffres%2Fimages%2Fsharing.jpg
+    [link] => http://gift.mercialfred.com/infographie-metiers-dechiffres
+    [name] => Les métiers déchiffrés : 16 jobs expliqués en infographie
+    [caption] => gift.mercialfred.com
+    [description] => L'infographie que Pôle Emploi devrait ouvrir.
+    [icon] => https://fbstatic-a.akamaihd.net/rsrc.php/v2/yD/r/aS8ecmYRys0.gif
+    [privacy] => stdClass Object
+        (
+            [value] => 
+        )
+
+    [type] => link
+    [status_type] => shared_story
+    [application] => stdClass Object
+        (
+            [name] => Links
+            [id] => 2309869772
+        )
+
+    [created_time] => 2014-11-27T23:42:03+0000
+    [updated_time] => 2014-11-27T23:42:03+0000
+    [likes] => stdClass Object
+        (
+            [data] => Array
+                (
+                    [0] => stdClass Object
+                        (
+                            [id] => 10205578108036630
+                            [name] => Jérôme Quersin
+                        )
+
+                )
+
+            [paging] => stdClass Object
+                (
+                    [cursors] => stdClass Object
+                        (
+                            [after] => MTAyMDU1NzgxMDgwMzY2MzA=
+                            [before] => MTAyMDU1NzgxMDgwMzY2MzA=
+                        )
+
+                )
+
+        )
+
+)

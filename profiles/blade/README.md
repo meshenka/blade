@@ -11,3 +11,8 @@ This installation profile embed modules, themes and all configuration to setup a
   * configure your Dababase and Vhost
   * Visit your brand new Drupal 7 installation
   * During installation process you can choose the Flat AC profile instead of standard or minimal
+
+## Configuration of FB DataProvider
+
+  * find an account id here http://findmyfacebookid.com/
+  * get the user_id from Facebook and go to admin/config/services/fb-provider

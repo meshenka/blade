@@ -1,0 +1,103 @@
+<?php
+
+use Facebook as FB;
+
+define('BLADENEWS_PERMISSION', 'administer bladenews dataprovider');
+define('BLADENEWS_FB_APP_PERMISSION', 'administer Facebbook dataprovider');
+
+function bladenews_boot()
+{
+    include_once DRUPAL_ROOT.'/sites/all/libraries/autoload.php';
+}
+
+/**
+ * Implements hook_permission().
+ */
+function bladenews_permission()
+{
+    return array(
+        BLADENEWS_PERMISSION => array(
+          'title' => t('Administer bladenews dataprovider'),
+          'description' => t('Access BladeNews configuration page.'),
+        ),
+        BLADENEWS_FB_APP_PERMISSION => array(
+          'title' => t('Administer Facebook dataprovider'),
+          'description' => t('Administer Facebook Application ID and SECRET.'),
+        ),
+  );
+}
+
+/**
+ *
+ * @return array of menu items
+ */
+function bladenews_menu()
+{
+    $items = array();
+
+    $items['admin/config/services/fb-provider'] = array(
+        'title' => 'Facebook Data Provider',
+        'description' => 'Facebook Data Provider',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('bladenews_settings_form'),
+        'access arguments' => array(BLADENEWS_PERMISSION),
+        'type' => MENU_NORMAL_ITEM,
+    );
+
+    $items['admin/config/services/fb-app'] = array(
+        'title' => 'Facebook Application configuration',
+        'description' => 'Define Facebook application ID and Secret',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('bladenews_fbapp_settings_form'),
+        'access arguments' => array(BLADENEWS_PERMISSION),
+        //'file' => 'less.admin.inc',
+        'type' => MENU_NORMAL_ITEM,
+    );
+
+    return $items;
+}
+
+/**
+ *
+ */
+function bladenews_fbapp_settings_form($form, &$form_state)
+{
+    $form['bladenews_fb_id'] = array(
+        '#type' => 'textfield',
+        '#title' => 'Facebook App ID',
+        '#required' => true,
+        '#default_value' => variable_get('bladenews_fb_id', false),
+    );
+
+    $form['bladenews_fb_secret'] = array(
+        '#type' => 'password',
+        '#title' => 'Facebook App SECRET',
+        '#default_value' => variable_get('bladenews_fb_secret', false),
+    );
+
+    return system_settings_form($form);
+}
+
+/**
+ *
+ */
+function bladenews_settings_form($form, &$form_state)
+{
+    if (variable_get('bladenews_fb_id', false) && variable_get('bladenews_fb_secret', false)) {
+        $fbId = variable_get('bladenews_fb_id', false);
+        $fbSecret = variable_get('bladenews_fb_secret', false);
+
+        $helper = new FB\FacebookRedirectLoginHelper('http://knifemaker.loc/admin/config/services/fb-provider', $fbId, $fbSecret);
+
+        $form['authorize'] = array(
+            '#markup' => '<a href="'.$helper->getLoginUrl(['read_stream']).'">Authorize Blade Application with Facebook</a>' ,
+        );
+
+        return system_settings_form($form);
+    }
+    $form['authorize'] = array(
+        '#markup' => 'The Facebook application is not configured. Go <a href="'.url('admin/config/services/fb-app').'">here</a> to setup application' ,
+    );
+
+    return $form;
+}

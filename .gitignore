@@ -23,6 +23,8 @@ sites/all/libraries/phing
 sites/all/libraries/pdepend
 sites/all/libraries/phpmd
 sites/all/libraries/squizlabs
+sites/all/libraries/facebook
+sites/all/libraries/guzzlehttp
 
 *.make
 sites/all/drush
