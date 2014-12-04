@@ -1,1 +1,0 @@
-Facebook\FacebookAuthorizationException : (#100) Requires user session dans Facebook\FacebookRequestException::create() (ligne 104 dans /home/syg/www/knifemaker.loc/sites/all/libraries/facebook/php-sdk-v4/src/Facebook/FacebookRequestException.php).
