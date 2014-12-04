@@ -90,7 +90,7 @@ function bladenews_settings_form($form, &$form_state)
         $helper = new FB\FacebookRedirectLoginHelper('http://knifemaker.loc/admin/config/services/fb-provider', $fbId, $fbSecret);
 
         $form['authorize'] = array(
-            '#markup' => '<a href="'.$helper->getLoginUrl(['read_stream']).'">Authorize Blade Application with Facebook</a>' ,
+            '#markup' => '<a href="'.$helper->getLoginUrl(['read_stream', 'offline_access']).'">Authorize Blade Application with Facebook</a>' ,
         );
 
         return system_settings_form($form);

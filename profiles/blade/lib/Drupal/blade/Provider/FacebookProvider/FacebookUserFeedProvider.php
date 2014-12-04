@@ -43,6 +43,8 @@ final class FacebookUserFeedProvider extends AbstractFacebookProvider
 
         foreach ($data['data'] as $post) {
             $this->import($post);
+            // $pDetails = (new FacebookRequest($this->getSession(), 'GET', '/'.$post->id))->execute()->getGraphObject()->asArray();
+            // print_r($pDetails);
         }
     }
 
@@ -77,7 +79,7 @@ final class FacebookUserFeedProvider extends AbstractFacebookProvider
         $newNode->language = 'fr';
 
         $newNode->body[LANGUAGE_NONE][0]['format'] = 'full_html';
-        $newNode->body[LANGUAGE_NONE][0]['value'] = '<p>'.$post->story.' <a href="'.$post->link.'" title="'.$post->name.'">'.$post->name.'</a></p>';
+        $newNode->body[LANGUAGE_NONE][0]['value'] = '<p>'.$post->story.' <a target="_blank" href="'.$post->link.'" title="'.$post->name.'">'.$post->name.'</a></p>';
         $newNode->body[LANGUAGE_NONE][0]['summary'] = text_summary($newNode->body[LANGUAGE_NONE][0]['value']);
         // add CCK field data
         $newNode->field_remote_id[LANGUAGE_NONE][0]['value'] = $post->id;
