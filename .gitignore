@@ -27,6 +27,7 @@ sites/all/libraries/facebook
 sites/all/libraries/guzzlehttp
 sites/all/libraries/psr
 sites/all/libraries/leafo
+sites/all/libraries/lessphp/*
 
 *.make
 sites/all/drush

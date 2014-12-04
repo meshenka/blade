@@ -81,6 +81,7 @@
 	<target name="build"  depends="composer-install, prepare, drush-audit, phpdoc" description="build application">
         <!-- copy sites/all/libraries/leafo/lessphp/lessc.inc.php to sites/all/libraries/lessphp/lessc.inc.php -->
         <copy file="${project.vendorsdir}/leafo/lessphp/lessc.inc.php" todir="${project.vendorsdir}/lessphp"/>
+        <copy file="${project.vendorsdir}/leafo/lessphp/LICENSE" todir="${project.vendorsdir}/lessphp"/>
         <echo message="Deploy lessc.inc.php."/>
 	</target>
 	
