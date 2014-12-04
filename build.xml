@@ -78,7 +78,10 @@
 		<echo message="Profile configured done."/>
 	</target>
 
-	<target name="build"  depends="composer-install, prepare, drush-audit, phpdoc, drush-init" description="build application">
+	<target name="build"  depends="composer-install, prepare, drush-audit, phpdoc" description="build application">
+        <!-- copy sites/all/libraries/leafo/lessphp/lessc.inc.php to sites/all/libraries/lessphp/lessc.inc.php -->
+        <copy file="${project.vendorsdir}/leafo/lessphp/lessc.inc.php" todir="${project.vendorsdir}/lessphp"/>
+        <echo message="Deploy lessc.inc.php."/>
 	</target>
 	
 	<target name="drupal-conf-dev" description="setup drupal for developpment configuration">

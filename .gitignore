@@ -26,6 +26,7 @@ sites/all/libraries/squizlabs
 sites/all/libraries/facebook
 sites/all/libraries/guzzlehttp
 sites/all/libraries/psr
+sites/all/libraries/leafo
 
 *.make
 sites/all/drush
