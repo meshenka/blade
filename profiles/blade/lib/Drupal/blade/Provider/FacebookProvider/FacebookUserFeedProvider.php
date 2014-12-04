@@ -42,7 +42,7 @@ final class FacebookUserFeedProvider extends AbstractFacebookProvider
         $data = (new FacebookRequest($this->getSession(), 'GET', '/'.$this->userId.'/feed'/*, ['filter' => 'app_2915120374']*/))->execute()->getGraphObject()->asArray();
 
         foreach ($data['data'] as $post) {
-            $this->logger->debug(print_r($this->import($data['data'][0]), true));
+            $this->import($post);
         }
     }
 
@@ -54,11 +54,12 @@ final class FacebookUserFeedProvider extends AbstractFacebookProvider
      **/
     private function import(\stdClass $post)
     {
-        return $post;
-        if ($post->type === 'status') {
+        if ($node = $this->findExistingNode($post->id)) {
+            $this->logger->info('post @postid already imported', ['@postid' => $post->id]);
+
+            return false;
         }
 
-        return;
         $newNode = (object) NULL;
         $newNode->type = 'news';
         node_object_prepare($newNode);
@@ -108,6 +109,31 @@ final class FacebookUserFeedProvider extends AbstractFacebookProvider
         // save node
         node_save($newNode);
 
+        $this->logger->info('post @postid imported', ['@postid' => $post->id]);
+
         return $newNode;
+    }
+
+    /**
+     * Find if post was already imported
+     *
+     * @param  string                 $postId a remote post Id
+     * @return mixed(false|\stdClass) a node entity or false
+     */
+    private function findExistingNode($postId)
+    {
+        $query = new \EntityFieldQuery();
+        $query
+            ->entityCondition('entity_type', 'node')
+            ->entityCondition('bundle', 'news')
+            ->fieldCondition('field_remote_id', 'value', $postId, '=')
+            ->range(0, 1);
+        $result = $query->execute();
+
+        if (isset($result['node'])) {
+            return entity_load('node', array_keys($result['node']));
+        }
+
+        return false;
     }
 }
