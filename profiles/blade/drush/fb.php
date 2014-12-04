@@ -5,6 +5,7 @@ include_once DRUPAL_ROOT.'/sites/all/libraries/autoload.php';
 use Facebook as FB;
 use Facebook\HttpClients\FacebookGuzzleHttpClient;
 use Drupal\blade\Provider\FacebookProvider\FacebookUserFeedProvider;
+use Drupal\log\DrushLogger;
 
 drush_log('test fb connexion', 'ok');
 
@@ -21,5 +22,6 @@ $sgid = 849604591;
 $mmid = 100001840674293;
 
 $fbProvider = new FacebookUserFeedProvider($sgid, $session);
+$fbProvider->setLogger(new DrushLogger());
 
-print_r($fbProvider->fetch());
+$fbProvider->fetch();

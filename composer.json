@@ -35,7 +35,9 @@
     "squizlabs/php_codesniffer": "1.5.*",
     "phpmd/phpmd": "1.5.*",
     "facebook/php-sdk-v4" : "4.0.*",
-    "guzzlehttp/guzzle" : "~4.0"
+    "guzzlehttp/guzzle" : "~4.0",
+    "psr/log" : "1.0.*@dev"
+    
   },
   "config": {
     "vendor-dir": "sites/all/libraries",
@@ -45,7 +47,8 @@
   "autoload": {
         "psr-0": {
           "Blade\\": "sites/all/libraries/blade/",
-          "Drupal\\blade\\": "profiles/blade/lib/"
+          "Drupal\\blade\\": "profiles/blade/lib/",
+          "Drupal\\log\\": "profiles/blade/lib/"
         }
     }
 }

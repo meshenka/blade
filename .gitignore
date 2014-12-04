@@ -25,6 +25,7 @@ sites/all/libraries/phpmd
 sites/all/libraries/squizlabs
 sites/all/libraries/facebook
 sites/all/libraries/guzzlehttp
+sites/all/libraries/psr
 
 *.make
 sites/all/drush

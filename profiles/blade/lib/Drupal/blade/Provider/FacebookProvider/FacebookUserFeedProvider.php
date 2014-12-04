@@ -4,13 +4,15 @@ namespace Drupal\blade\Provider\FacebookProvider;
 
 use Facebook\FacebookSession;
 use Facebook\FacebookRequest;
-
+use Psr\Log\LoggerAwareTrait;
 /**
  * Import les posts d'un user facebook sous forme de node News
  *
  */
 final class FacebookUserFeedProvider extends AbstractFacebookProvider
 {
+    use LoggerAwareTrait;
+
     /**
      * @var integer
      */
@@ -30,24 +32,33 @@ final class FacebookUserFeedProvider extends AbstractFacebookProvider
     }
 
     /**
-     * undocumented function
+     * fetch status posts (we dont need share, link etc...)
      *
      * @return \stdClass last imported node
+     * @see https://developers.facebook.com/docs/graph-api/reference/v2.2/user/feed?locale=fr_FR
      **/
     protected function doFetch()
     {
-        $data = (new FacebookRequest($this->getSession(), 'GET', '/'.$this->userId.'/posts'))->execute()->getGraphObject()->asArray();
+        $data = (new FacebookRequest($this->getSession(), 'GET', '/'.$this->userId.'/feed'/*, ['filter' => 'app_2915120374']*/))->execute()->getGraphObject()->asArray();
 
-        return $this->import($data['data'][0]);
+        foreach ($data['data'] as $post) {
+            $this->logger->debug(print_r($this->import($data['data'][0]), true));
+        }
     }
 
     /**
      * import a facebook post as a node
      * @param \stdClass a facebook post
      * @return \stdClass the imported node
+     * @see https://developers.facebook.com/docs/graph-api/reference/v2.2/post?locale=fr_FR
      **/
     private function import(\stdClass $post)
     {
+        return $post;
+        if ($post->type === 'status') {
+        }
+
+        return;
         $newNode = (object) NULL;
         $newNode->type = 'news';
         node_object_prepare($newNode);
