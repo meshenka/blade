@@ -37,7 +37,8 @@
     "facebook/php-sdk-v4" : "4.0.*",
     "guzzlehttp/guzzle" : "~4.0",
     "psr/log" : "1.0.*@dev",
-    "leafo/lessphp" : "0.5.*@dev"
+    "leafo/lessphp" : "0.5.*@dev",
+    "ricardoper/twitteroauth": "1.*"
     
   },
   "config": {

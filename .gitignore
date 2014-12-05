@@ -28,7 +28,7 @@ sites/all/libraries/guzzlehttp
 sites/all/libraries/psr
 sites/all/libraries/leafo
 sites/all/libraries/lessphp/*
-
+sites/all/libraries/ricardoper
 *.make
 sites/all/drush
 sites/all/modules
