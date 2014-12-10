@@ -1,9 +1,7 @@
 <?php
 
-use Facebook as FB;
-
-define('BLADENEWS_PERMISSION', 'administer bladenews dataprovider');
-define('BLADENEWS_FB_APP_PERMISSION', 'administer Facebbook dataprovider');
+define('BLADENEWS_PERMISSION', 'administer rs configuration');
+define('BLADENEWS_APP_PERMISSION', 'administer rs application');
 
 function bladenews_boot()
 {
@@ -39,8 +37,9 @@ function bladenews_menu()
         'title' => 'Facebook Data Provider',
         'description' => 'Facebook Data Provider',
         'page callback' => 'drupal_get_form',
-        'page arguments' => array('bladenews_settings_form'),
-        'access arguments' => array(BLADENEWS_PERMISSION),
+        'page arguments' => array('bladenews_fb_provider_form'),
+        'access arguments' => array(BLADENEWS_APP_PERMISSION),
+        'file' => 'includes/admin.fb.inc',
         'type' => MENU_NORMAL_ITEM,
     );
 
@@ -48,56 +47,31 @@ function bladenews_menu()
         'title' => 'Facebook Application configuration',
         'description' => 'Define Facebook application ID and Secret',
         'page callback' => 'drupal_get_form',
-        'page arguments' => array('bladenews_fbapp_settings_form'),
+        'page arguments' => array('bladenews_fb_app_form'),
         'access arguments' => array(BLADENEWS_PERMISSION),
-        //'file' => 'less.admin.inc',
+        'file' => 'includes/admin.fb.inc',
+        'type' => MENU_NORMAL_ITEM,
+    );
+
+    $items['admin/config/services/twitter-provider'] = array(
+        'title' => 'Twitter Provider',
+        'description' => 'Twitter Application configuration',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('bladenews_twitter_provider_form'),
+        'access arguments' => array(BLADENEWS_APP_PERMISSION),
+        'file' => 'includes/admin.twitter.inc',
+        'type' => MENU_NORMAL_ITEM,
+    );
+
+    $items['admin/config/services/twitter-app'] = array(
+        'title' => 'Twitter Application configuration',
+        'description' => 'Define Twitter application ID and Secret',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('bladenews_twitter_app_form'),
+        'access arguments' => array(BLADENEWS_PERMISSION),
+        'file' => 'includes/admin.twitter.inc',
         'type' => MENU_NORMAL_ITEM,
     );
 
     return $items;
-}
-
-/**
- *
- */
-function bladenews_fbapp_settings_form($form, &$form_state)
-{
-    $form['bladenews_fb_id'] = array(
-        '#type' => 'textfield',
-        '#title' => 'Facebook App ID',
-        '#required' => true,
-        '#default_value' => variable_get('bladenews_fb_id', false),
-    );
-
-    $form['bladenews_fb_secret'] = array(
-        '#type' => 'password',
-        '#title' => 'Facebook App SECRET',
-        '#default_value' => variable_get('bladenews_fb_secret', false),
-    );
-
-    return system_settings_form($form);
-}
-
-/**
- *
- */
-function bladenews_settings_form($form, &$form_state)
-{
-    if (variable_get('bladenews_fb_id', false) && variable_get('bladenews_fb_secret', false)) {
-        $fbId = variable_get('bladenews_fb_id', false);
-        $fbSecret = variable_get('bladenews_fb_secret', false);
-
-        $helper = new FB\FacebookRedirectLoginHelper('http://knifemaker.loc/admin/config/services/fb-provider', $fbId, $fbSecret);
-
-        $form['authorize'] = array(
-            '#markup' => '<a href="'.$helper->getLoginUrl(['read_stream', 'offline_access']).'">Authorize Blade Application with Facebook</a>' ,
-        );
-
-        return system_settings_form($form);
-    }
-    $form['authorize'] = array(
-        '#markup' => 'The Facebook application is not configured. Go <a href="'.url('admin/config/services/fb-app').'">here</a> to setup application' ,
-    );
-
-    return $form;
 }

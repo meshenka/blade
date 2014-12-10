@@ -5,6 +5,8 @@ namespace Drupal\blade\Provider\FacebookProvider;
 use Facebook\FacebookSession;
 use Facebook\FacebookRequest;
 use Psr\Log\LoggerAwareTrait;
+use Drupal\blade\Provider\NodeFinderTrait;
+
 /**
  * Import les posts d'un user facebook sous forme de node News
  *
@@ -12,6 +14,7 @@ use Psr\Log\LoggerAwareTrait;
 final class FacebookUserFeedProvider extends AbstractFacebookProvider
 {
     use LoggerAwareTrait;
+    use NodeFinderTrait;
 
     /**
      * @var integer
@@ -43,9 +46,12 @@ final class FacebookUserFeedProvider extends AbstractFacebookProvider
 
         foreach ($data['data'] as $post) {
             $this->import($post);
-            // $pDetails = (new FacebookRequest($this->getSession(), 'GET', '/'.$post->id))->execute()->getGraphObject()->asArray();
-            // print_r($pDetails);
         }
+    }
+
+    private function buildUuid($post)
+    {
+        return 'facebook://'.$post->id;
     }
 
     /**
@@ -56,8 +62,10 @@ final class FacebookUserFeedProvider extends AbstractFacebookProvider
      **/
     private function import(\stdClass $post)
     {
-        if ($node = $this->findExistingNode($post->id)) {
-            $this->logger->info('post @postid already imported', ['@postid' => $post->id]);
+        $remoteId = $this->buildUuid($post);
+
+        if ($node = $this->findByRemoteId($remoteId)) {
+            $this->logger->info('post @postid already imported', ['@postid' => $remoteId]);
 
             return false;
         }
@@ -82,7 +90,7 @@ final class FacebookUserFeedProvider extends AbstractFacebookProvider
         $newNode->body[LANGUAGE_NONE][0]['value'] = '<p>'.$post->story.' <a target="_blank" href="'.$post->link.'" title="'.$post->name.'">'.$post->name.'</a></p>';
         $newNode->body[LANGUAGE_NONE][0]['summary'] = text_summary($newNode->body[LANGUAGE_NONE][0]['value']);
         // add CCK field data
-        $newNode->field_remote_id[LANGUAGE_NONE][0]['value'] = $post->id;
+        $newNode->field_remote_id[LANGUAGE_NONE][0]['value'] = $remoteId;
 
         /* TODO importer les images
            //create file object
@@ -111,7 +119,7 @@ final class FacebookUserFeedProvider extends AbstractFacebookProvider
         // save node
         node_save($newNode);
 
-        $this->logger->info('post @postid imported', ['@postid' => $post->id]);
+        $this->logger->info('post @postid imported', ['@postid' => $remoteId]);
 
         return $newNode;
     }

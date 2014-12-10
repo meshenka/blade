@@ -5,10 +5,12 @@ namespace Drupal\blade\Provider\TwitterProvider;
 use TwitterOAuth\TwitterOAuth;
 use Psr\Log\LoggerAwareTrait;
 use Drupal\blade\Provider\ProviderInterface;
+use Drupal\blade\Provider\NodeFinderTrait;
 
 final class TwitterUserPostProvider implements  ProviderInterface
 {
     use LoggerAwareTrait;
+    use NodeFinderTrait;
 
     /**
      * @var array
@@ -46,7 +48,6 @@ final class TwitterUserPostProvider implements  ProviderInterface
      **/
     public function fetch()
     {
-        $this->logger->debug(strtotime('Fri Dec 05 22:56:43 +0000 2014'));
         /**
      	 * Returns a collection of the most recent Tweets posted by the user
          * https://dev.twitter.com/docs/api/1.1/get/statuses/user_timeline
@@ -80,7 +81,7 @@ final class TwitterUserPostProvider implements  ProviderInterface
 
     private function import($post)
     {
-        if ($node = $this->findExistingNode($post)) {
+        if ($node = $this->findByRemoteId($this->buildUuid($post))) {
             $this->logger->info('post @postid already imported', ['@postid' => $this->buildUuid($post)]);
 
             return false;
@@ -115,28 +116,5 @@ final class TwitterUserPostProvider implements  ProviderInterface
         $this->logger->info('post @postid imported', ['@postid' => $newNode->field_remote_id[LANGUAGE_NONE][0]['value']]);
 
         return $newNode;
-    }
-
-    /**
-     * Find if post was already imported
-     *
-     * @param  string                 $postId a remote post Id
-     * @return mixed(false|\stdClass) a node entity or false
-     */
-    private function findExistingNode($post)
-    {
-        $query = new \EntityFieldQuery();
-        $query
-            ->entityCondition('entity_type', 'node')
-            ->entityCondition('bundle', 'news')
-            ->fieldCondition('field_remote_id', 'value', $this->buildUuid($post), '=')
-            ->range(0, 1);
-        $result = $query->execute();
-
-        if (isset($result['node'])) {
-            return entity_load('node', array_keys($result['node']));
-        }
-
-        return false;
     }
 }
