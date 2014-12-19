@@ -87,7 +87,16 @@
 	
 	<target name="drupal-conf-dev" description="setup drupal for developpment configuration">
         <drush command="en" assume="yes" >
-        	<param>devel</param>
+            <param>devel</param>
+            <param>field_ui</param>
+            <param>context_ui</param>
+            <param>devel_themer</param>
+            <param>views_ui</param>
+            <param>dblog</param>
+        </drush>
+
+        <drush command="dis" assume="yes" >
+            <param>syslog</param>
         </drush>
 
         <drush command="vset" assume="yes" >
@@ -97,13 +106,53 @@
 
         <drush command="vset" assume="yes" >
         	<param>css_gzip_compression</param>
-        	<param>0</param>
+        	<param>${drush.false}</param>
         </drush>
 
         <drush command="vset" assume="yes" >
         	<param>js_gzip_compression</param>
-        	<param>0</param>
+        	<param>${drush.false}</param>
         </drush>
+        <drush command="vset" assume="yes" >
+            <param>cache</param>
+            <param>${drush.false}</param>
+        </drush>
+
+        <drush command="vset" assume="yes" >
+            <param>block_cache</param>
+            <param>${drush.false}</param>
+        </drush>
+
+        <drush command="vset" assume="yes" >
+            <param>page_compression</param>
+            <param>${drush.false}</param>
+        </drush>
+
+        <drush command="vset" assume="yes" >
+            <param>preprocess_js</param>
+            <param>${drush.false}</param>
+        </drush>
+
+        <drush command="vset" assume="yes" >
+            <param>preprocess_css</param>
+            <param>${drush.false}</param>
+        </drush>
+
+        <drush command="vset" assume="yes" >
+            <param>js_gzip_compression</param>
+            <param>${drush.false}</param>
+        </drush>
+        
+        <drush command="vset" assume="yes" >
+            <param>css_gzip_compression</param>
+            <param>${drush.false}</param>
+        </drush>
+
+        <drush command="vset" assume="yes" >
+            <param>error_level</param>
+            <param>1</param>
+        </drush>
+
 	</target>
 	
 	<target name="drupal-conf-prod" description="setup drupal for developpment configuration">
