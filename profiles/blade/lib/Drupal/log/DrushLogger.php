@@ -76,7 +76,7 @@ final class DrushLogger implements LoggerInterface
      */
     public function info($message, array $context = array())
     {
-        $this->log(self::LEVEL_NOTICE, $message, $context);
+        $this->log(self::LEVEL_OK, $message, $context);
     }
 
     /**

@@ -1,13 +1,18 @@
 <?php
 /**
+ * @author sylvain.gogel@gmail.com
  * @package Blade
  * @subpackage Profile
+ *
  */
 
-namespace Drupal\blade\Configuration;
+namespace Drupal\blade\Profile;
+
+use Drupal\blade\Configuration\AbstractConfigurator;
 
 /**
  * Configure administrator and webmaster roles
+ * @since 1.0.0
  */
 final class RolesConfigurator extends AbstractConfigurator
 {
@@ -29,9 +34,9 @@ final class RolesConfigurator extends AbstractConfigurator
                 ->fields(array('uid' => 1, 'rid' => $admin_role->rid))
                 ->execute();
 
-            $this->log("Role {$admin_role->name} initialized", self::LEVEL_SUCCESS);
+            $this->logger->info("Role {$admin_role->name} initialized");
         } catch (\PDOException $ex) {
-            $this->log("Role {$admin_role->name} already created", self::LEVEL_SUCCESS);
+            $this->logger->warning("Role {$admin_role->name} already created");
         }
 
         // Create a default role for site administrators, with all available permissions assigned.
@@ -42,11 +47,9 @@ final class RolesConfigurator extends AbstractConfigurator
             user_role_save($webmaster_role);
 
             //@TODO assign permissions for webmaster
-            $this->log("Role {$webmaster_role->name} initialized", self::LEVEL_SUCCESS);
+            $this->logger->info("Role {$webmaster_role->name} initialized");
         } catch (\PDOException $ex) {
-            $this->log("Role {$webmaster_role->name} already created", self::LEVEL_SUCCESS);
+            $this->logger->warning("Role {$webmaster_role->name} already created");
         }
-
-        return $this->getMessages();
     }
 }

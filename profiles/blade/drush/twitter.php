@@ -1,4 +1,14 @@
 <?php
+/**
+ * this drush command load composer autoloader and
+ * import contents from a Facebook account
+ *
+ * @author sylvain.gogel@gmail.com
+ * @package Blade
+ * @subpackage Importer
+ * @example drush scr profiles/blade/drush/twitter.php
+ * @since 1.0.0
+ */
 
 include_once DRUPAL_ROOT.'/sites/all/libraries/autoload.php';
 

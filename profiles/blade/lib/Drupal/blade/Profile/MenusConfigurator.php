@@ -1,13 +1,18 @@
 <?php
 /**
+ * @author sylvain.gogel@gmail.com
  * @package Blade
  * @subpackage Profile
+ *
  */
 
-namespace Drupal\blade\Configuration;
+namespace Drupal\blade\Profile;
+
+use Drupal\blade\Configuration\AbstractConfigurator;
 
 /**
  * Configure Main menu
+ * @since 1.0.0
  */
 final class MenusConfigurator extends AbstractConfigurator
 {
@@ -24,8 +29,6 @@ final class MenusConfigurator extends AbstractConfigurator
         // Update the menu router information.
         menu_rebuild();
 
-        $this->log('Menus configured', self::LEVEL_SUCCESS);
-
-        return $this->getMessages();
+        $this->logger->info('Menus configured');
     }
 }

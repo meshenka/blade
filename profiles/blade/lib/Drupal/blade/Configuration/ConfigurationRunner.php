@@ -1,16 +1,19 @@
 <?php
-
 /**
- * @package Blade
- * @subpackage Profile
- *
  * A simple class to run a stack of ConfiguratorInterface
+ *
+ * @author sylvain.gogel@gmail.com
+ * @package Blade
+ * @subpackage Configuration
+ *
  */
 
 namespace Drupal\blade\Configuration;
 
 /**
- * A class to run a stack of ConfiguratorInterface
+ * Concert class to run Configurations
+ *
+ * @since 1.0.0
  */
 final class ConfigurationRunner implements ConfigurationRunnerInterface
 {
@@ -20,10 +23,7 @@ final class ConfigurationRunner implements ConfigurationRunnerInterface
     private $configurators = [];
 
     /**
-     * chainable
-     * add a configurator to the stack
-     * @param  ConfiguratorInterface $conf
-     * @return ConfigurationRunner   this instance
+     * {@inheritdoc}
      */
     public function pipe(ConfiguratorInterface $conf)
     {
@@ -34,16 +34,12 @@ final class ConfigurationRunner implements ConfigurationRunnerInterface
 
     /**
      *
-     * Run the configurator stack
-     * @return array array of log messages
+     * {@inheritdoc}
      */
     public function run()
     {
-        $output = [];
         foreach ($this->configurators as $conf) {
-            $output = array_merge($output, $conf->configure());
+            $conf->configure();
         }
-
-        return $output;
     }
 }

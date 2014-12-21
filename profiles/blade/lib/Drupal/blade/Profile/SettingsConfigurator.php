@@ -1,20 +1,21 @@
 <?php
 /**
+ * @author sylvain.gogel@gmail.com
  * @package Blade
  * @subpackage Profile
+ *
  */
 
-namespace Drupal\blade\Configuration;
+namespace Drupal\blade\Profile;
 
-use Psr\Log\LoggerAwareTrait;
+use Drupal\blade\Configuration\AbstractConfigurator;
 
 /**
  * Configure text Fields input format filters
+ * @since 1.0.0
  */
 final class SettingsConfigurator extends AbstractConfigurator
 {
-    use LoggerAwareTrait;
-
     /**
      * {@inheritdoc}
      */

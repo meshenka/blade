@@ -1,30 +1,30 @@
 <?php
 /**
+ * @author sylvain.gogel@gmail.com
  * @package Blade
- * @subpackage Profile
+ * @subpackage Configuration
+ *
  */
 
 namespace Drupal\blade\Configuration;
 
+use Psr\Log\LoggerInterface;
+
 /**
- * provide a helper to manage log message
+ * Abstract configurator Interface that provide helper for logger
  * @abstract
+ * @since 1.0.0
  */
 abstract class AbstractConfigurator implements ConfiguratorInterface
 {
     /**
-     * @var array
+     * @var Psr\Log\LoggerInterface
      */
-    private $messages = [];
+    protected $logger;
 
-    protected function log($message, $level = self::LEVEL_NOTICE)
+    public function __construct(LoggerInterface $logger)
     {
-        $this->messages[] = [$message, $level];
-    }
-
-    public function getMessages()
-    {
-        return $this->messages;
+        $this->logger = $logger;
     }
 
     abstract public function configure();

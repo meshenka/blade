@@ -1,13 +1,18 @@
 <?php
 /**
+ * @author sylvain.gogel@gmail.com
  * @package Blade
  * @subpackage Profile
+ *
  */
 
-namespace Drupal\blade\Configuration;
+namespace Drupal\blade\Profile;
+
+use Drupal\blade\Configuration\AbstractConfigurator;
 
 /**
  * Configure admin and front office theme
+ * @since 1.0.0
  */
 final class ThemesConfigurator extends AbstractConfigurator
 {
@@ -60,8 +65,6 @@ final class ThemesConfigurator extends AbstractConfigurator
             )
         );
 
-        $this->log('Themes configured', self::LEVEL_SUCCESS);
-
-        return $this->getMessages();
+        $this->logger->info('Themes configured');
     }
 }

@@ -6,6 +6,7 @@ use Facebook\FacebookSession;
 use Facebook\FacebookRequest;
 use Psr\Log\LoggerAwareTrait;
 use Drupal\blade\Provider\NodeFinderTrait;
+use Drupal\blade\Provider\FileEntityImporterTrait;
 
 /**
  * Import les posts d'un user facebook sous forme de node News
@@ -15,6 +16,7 @@ final class FacebookUserFeedProvider extends AbstractFacebookProvider
 {
     use LoggerAwareTrait;
     use NodeFinderTrait;
+    use FileEntityImporterTrait;
 
     /**
      * @var integer
@@ -63,11 +65,12 @@ final class FacebookUserFeedProvider extends AbstractFacebookProvider
     private function import(\stdClass $post)
     {
         $remoteId = $this->buildUuid($post);
+        //$this->logger->info(print_r($post, true));
 
         if ($node = $this->findByRemoteId($remoteId)) {
             $this->logger->info('post @postid already imported', ['@postid' => $remoteId]);
 
-            return false;
+           // return false;
         }
 
         $newNode = (object) NULL;
@@ -92,30 +95,20 @@ final class FacebookUserFeedProvider extends AbstractFacebookProvider
         // add CCK field data
         $newNode->field_remote_id[LANGUAGE_NONE][0]['value'] = $remoteId;
 
-        /* TODO importer les images
-           //create file object
-        $file = new stdClass();
-        $file->uid = '1';
-        //the file is already in sites/default/files - which is D7 public://
-        $file->filename = $fpURL[3];
-        $file->uri = file_build_uri($fpURL[3]);
-        $file->filemime = file_get_mimetype((string) $new_node->field_image);//this is the complete path
-        $file->status = '1';
-        $savedFile = file_save($file);
-        $savedFile = file_load($savedFile->fid);//do we need to do this?
-        //slot into node - do we have to do all this?  Probably not...
-        $node->field_visual[LANGUAGE_NONE][0] = array(
-          'fid' => $savedFile->fid,//file id is key - now registered as file in system
-          'alt' => $post->caption,
-          'title' => $post->description,
-          'uid' => '1',
-          'filename' => $savedFile->filename,
-          'uri' => $savedFile->uri,
-          'filemime' => $savedFile->filemime,
-          'filesize' => $savedFile->filesize,
-          'status' => '1',
-        );
-        */
+        if ($picture = $post->picture) {
+            $file = $this->importFile($picture, 'public://remote/facebook');
+            $newNode->field_visual[LANGUAGE_NONE][0] = array(
+                  'fid' => $file->fid,//file id is key - now registered as file in system
+                  'alt' => $post->caption,
+                  'title' => $post->description,
+                  'uid' => '1',
+                  'filename' => $file->filename,
+                  'uri' => $file->uri,
+                  'filemime' => $file->filemime,
+                  'filesize' => $file->filesize,
+                  'status' => '1',
+                );
+        }
         // save node
         node_save($newNode);
 

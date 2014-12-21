@@ -1,4 +1,15 @@
 <?php
+/**
+ * this drush command load composer autoloader and
+ * import contents from a Facebook account
+ *
+ * @author sylvain.gogel@gmail.com
+ * @package Blade
+ * @subpackage Importer
+ * @example drush scr profiles/blade/drush/fb.php
+ * @since 1.0.0
+ *
+ */
 
 include_once DRUPAL_ROOT.'/sites/all/libraries/autoload.php';
 
@@ -20,8 +31,6 @@ FB\FacebookRequest::setHttpClientHandler(
 
 $session = FB\FacebookSession::newAppSession();
 $userId = variable_get('bladenews_fb_userid', false);
-// 849604591;
-// $mmid = 100001840674293;
 
 $fbProvider = new FacebookUserFeedProvider($userId, $session);
 $fbProvider->setLogger($logger);

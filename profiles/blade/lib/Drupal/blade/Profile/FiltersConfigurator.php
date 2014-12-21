@@ -1,13 +1,18 @@
 <?php
 /**
+ * @author sylvain.gogel@gmail.com
  * @package Blade
  * @subpackage Profile
+ *
  */
 
-namespace Drupal\blade\Configuration;
+namespace Drupal\blade\Profile;
+
+use Drupal\blade\Configuration\AbstractConfigurator;
 
 /**
  * Configure text Fields input format filters
+ * @since 1.0.0
  */
 final class FiltersConfigurator extends AbstractConfigurator
 {
@@ -87,7 +92,5 @@ final class FiltersConfigurator extends AbstractConfigurator
         );
         $markdown_html_format = (object) $markdown_html_format;
         filter_format_save($markdown_html_format);
-
-        return $this->getMessages();
     }
 }

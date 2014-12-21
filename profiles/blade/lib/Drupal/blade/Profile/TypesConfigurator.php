@@ -1,14 +1,19 @@
 <?php
 /**
+ * @author sylvain.gogel@gmail.com
  * @package Blade
  * @subpackage Profile
+ *
  */
 
-namespace Drupal\blade\Configuration;
+namespace Drupal\blade\Profile;
+
+use Drupal\blade\Configuration\AbstractConfigurator;
 
 /**
  * Configure node types (page, news, product, home)
  * Configure vocabularies (tags and type)
+ * @since 1.0.0
  */
 final class TypesConfigurator extends AbstractConfigurator
 {
@@ -35,7 +40,7 @@ final class TypesConfigurator extends AbstractConfigurator
             $this->createTerm('Pliant à mécanisme', $vocabulary->vid, $vocabulary->machine_name);
             $this->createTerm('Piémontais', $vocabulary->vid, $vocabulary->machine_name);
         } catch (\PDOException $ex) {
-            $this->log("Vocabulary {$vocabulary->name} already created");
+            $this->logger->warning("Vocabulary {$vocabulary->name} already created");
         }
 
         $field = array(
@@ -56,7 +61,7 @@ final class TypesConfigurator extends AbstractConfigurator
         try {
             field_create_field($field);
         } catch (\FieldException $ex) {
-            $this->log("Field {$field['field_name']} already created");
+            $this->logger->warning("Field {$field['field_name']} already created");
         }
 
         $help = st('Enter the type of your product.');
@@ -84,7 +89,7 @@ final class TypesConfigurator extends AbstractConfigurator
         try {
             field_create_instance($instance);
         } catch (\FieldException $ex) {
-            $this->log("Instance {$instance['field_name']} already created");
+            $this->logger->warning("Instance {$instance['field_name']} already created");
         }
     }
 
@@ -103,7 +108,7 @@ final class TypesConfigurator extends AbstractConfigurator
             $this->createTerm('Réservé', $vocabulary->vid, $vocabulary->machine_name);
             $this->createTerm('Vendu', $vocabulary->vid, $vocabulary->machine_name);
         } catch (\PDOException $ex) {
-            $this->log("Vocabulary {$vocabulary->name} already created");
+            $this->logger->warning("Vocabulary {$vocabulary->name} already created");
         }
 
         $field = array(
@@ -124,7 +129,7 @@ final class TypesConfigurator extends AbstractConfigurator
         try {
             field_create_field($field);
         } catch (\FieldException $ex) {
-            $this->log("Field {$field['field_name']} already created");
+            $this->logger->warning("Field {$field['field_name']} already created");
         }
 
         $help = st('Select availability of the product.');
@@ -152,7 +157,7 @@ final class TypesConfigurator extends AbstractConfigurator
         try {
             field_create_instance($instance);
         } catch (\FieldException $ex) {
-            $this->log("Instance {$instance['field_name']} already created");
+            $this->logger->warning("Instance {$instance['field_name']} already created");
         }
     }
 
@@ -168,7 +173,7 @@ final class TypesConfigurator extends AbstractConfigurator
         try {
             taxonomy_vocabulary_save($vocabulary);
         } catch (\PDOException $ex) {
-            $this->log("Vocabulary {$vocabulary->name} already created");
+            $this->logger->warning("Vocabulary {$vocabulary->name} already created");
         }
 
         $field = array(
@@ -189,7 +194,7 @@ final class TypesConfigurator extends AbstractConfigurator
         try {
             field_create_field($field);
         } catch (\FieldException $ex) {
-            $this->log("Field {$field['field_name']} already created");
+            $this->logger->warning("Field {$field['field_name']} already created");
         }
 
         $help = st('Enter a comma-separated list of words to describe your content.');
@@ -217,7 +222,7 @@ final class TypesConfigurator extends AbstractConfigurator
         try {
             field_create_instance($instance);
         } catch (\FieldException $ex) {
-            $this->log("Instance {$instance['field_name']} already created");
+            $this->logger->warning("Instance {$instance['field_name']} already created");
         }
     }
 
@@ -271,7 +276,7 @@ final class TypesConfigurator extends AbstractConfigurator
                 node_type_save($type);
                 node_add_body_field($type);
             } catch (\PDOException $ex) {
-                $this->log("Types {$type->type} already created");
+                $this->logger->warning("Types {$type->type} already created");
             }
         }
 
@@ -328,11 +333,11 @@ final class TypesConfigurator extends AbstractConfigurator
             'field_name' => 'field_image',
             'type' => 'image',
             'cardinality' => 1,
-            'locked' => FALSE,
+            'locked' => false,
             'indexes' => array('fid' => array('fid')),
             'settings' => array(
                 'uri_scheme' => 'public',
-                'default_image' => FALSE,
+                'default_image' => false,
                 ),
             'storage' => array(
                 'type' => 'field_sql_storage',
@@ -343,7 +348,7 @@ final class TypesConfigurator extends AbstractConfigurator
         try {
             field_create_field($field);
         } catch (\FieldException $ex) {
-            $this->log("Field {$field['field_name']} already created");
+            $this->logger->warning("Field {$field['field_name']} already created");
         }
 
         // Many of the following values will be defaulted, they're included here as an illustrative examples.
@@ -354,7 +359,7 @@ final class TypesConfigurator extends AbstractConfigurator
             'label' => 'Image',
             'bundle' => 'article',
             'description' => st('Upload an image to go with this article.'),
-            'required' => FALSE,
+            'required' => false,
 
             'settings' => array(
                 'file_directory' => 'field/image',
@@ -362,7 +367,7 @@ final class TypesConfigurator extends AbstractConfigurator
                 'max_filesize' => '',
                 'max_resolution' => '',
                 'min_resolution' => '',
-                'alt_field' => TRUE,
+                'alt_field' => true,
                 'title_field' => '',
                 ),
 
@@ -394,7 +399,7 @@ final class TypesConfigurator extends AbstractConfigurator
         try {
             field_create_instance($instance);
         } catch (\FieldException $ex) {
-            $this->log("Instance {$instance['field_name']} already created");
+            $this->logger->warning("Instance {$instance['field_name']} already created");
         }
 
         $filtered_html_format = array(
@@ -430,7 +435,5 @@ final class TypesConfigurator extends AbstractConfigurator
         $filtered_html_permission = filter_permission_name($filtered_html_format);
         user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, array('access content', $filtered_html_permission));
         user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array('access content', $filtered_html_permission));
-
-        return $this->getMessages();
     }
 }

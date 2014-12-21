@@ -1,23 +1,24 @@
 <?php
 /**
+ * @author sylvain.gogel@gmail.com
  * @package Blade
- * @author meshenka <meshee.knight@gmail.com>
+ * @subpackage Configuration
+ *
  */
-
 namespace Drupal\blade\Configuration;
 
 /**
- * generic profile configurator interface
+ * Generic profile configurator interface
+ * implement this interface to setup your own profiles
+ * @since 1.0.0
+ * @api
  */
 interface ConfiguratorInterface
 {
-    const LEVEL_ERROR = 'error';
-    const LEVEL_SUCCESS = 'success';
-    const LEVEL_NOTICE = 'notice';
-
     /**
-     * configure some of drupal aspects
-     * @return array an array of array(message, level) as per drush_log spec
+     * Configure some of drupal aspects
+     *
+     * @return none
      */
     public function configure();
 }

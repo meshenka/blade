@@ -1,13 +1,17 @@
 <?php
 /**
+ * @author sylvain.gogel@gmail.com
  * @package Blade
  * @subpackage Profile
+ *
  */
+namespace Drupal\blade\Profile;
 
-namespace Drupal\blade\Configuration;
+use Drupal\blade\Configuration\AbstractConfigurator;
 
 /**
  * Configure Blocks
+ * @since 1.0.0
  */
 final class BlocksConfigurator extends AbstractConfigurator
 {
@@ -93,12 +97,10 @@ final class BlocksConfigurator extends AbstractConfigurator
             try {
                 $query->values($block);
                 $query->execute();
-                $this->log("Init block {$block['module']}-{$block['delta']} for theme {$block['theme']}", self::LEVEL_SUCCESS);
+                $this->logger->info("Init block {$block['module']}-{$block['delta']} for theme {$block['theme']}");
             } catch (\PDOException $ex) {
-                $this->log("Block {$block['module']}-{$block['delta']} for theme {$block['theme']} already initialized");
+                $this->logger->warning("Block {$block['module']}-{$block['delta']} for theme {$block['theme']} already initialized");
             }
         }
-
-        return $this->getMessages();
     }
 }
